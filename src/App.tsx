@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -21,7 +22,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/marketplace" element={<Marketplace />} />
-              <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/pg/:id" element={<ProductDetails />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
