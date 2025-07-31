@@ -66,7 +66,7 @@
 
   /* Gradient text */
   .gradient-text {
-    @apply bg-gradient-to-r from-luxury-pink to-luxury-yellow bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-luxury-cognac to-luxury-amber bg-clip-text text-transparent;
   }
 
   /* Button hover effects */

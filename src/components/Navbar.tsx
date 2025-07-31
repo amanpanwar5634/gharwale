@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Search, User, Calendar, Home, Menu, X } from "lucide-react";
+import { Search, User, Calendar, Sparkles, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -18,13 +18,15 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-b border-gray-100 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
+          {/* Logo - Lovable style */}
           <Link to="/" className="flex items-center gap-3 group">
             <div className="relative">
-              <Home className="w-8 h-8 text-blue-600 group-hover:scale-110 transition-transform" />
-              <div className="absolute -inset-1 bg-blue-600/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-luxury-cognac to-luxury-amber flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                <Sparkles className="w-5 h-5 text-white" />
+              </div>
+              <div className="absolute -inset-1 bg-gradient-to-br from-luxury-cognac/30 to-luxury-amber/30 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+            <span className="text-2xl font-black bg-gradient-to-r from-luxury-cognac to-luxury-amber bg-clip-text text-transparent">
               Gharpayy
             </span>
           </Link>
@@ -35,26 +37,26 @@ const Navbar = () => {
               <Link
                 key={link.label}
                 to={link.to}
-                className="relative px-4 py-2 text-accent hover:text-primary transition-colors group"
+                className="relative px-4 py-2 text-accent hover:text-luxury-cognac transition-colors group font-bold"
               >
                 <span className="relative z-10">{link.label}</span>
-                <div className="absolute inset-0 bg-blue-50 rounded-lg scale-0 group-hover:scale-100 transition-transform origin-center"></div>
+                <div className="absolute inset-0 bg-luxury-blush rounded-lg scale-0 group-hover:scale-100 transition-transform origin-center"></div>
               </Link>
             ))}
           </div>
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-3">
-            <Button variant="ghost" size="icon" className="hover:bg-blue-50">
+            <Button variant="ghost" size="icon" className="hover:bg-luxury-blush">
               <Search size={20} />
             </Button>
-            <Button variant="ghost" size="icon" className="hover:bg-blue-50">
+            <Button variant="ghost" size="icon" className="hover:bg-luxury-blush">
               <Calendar size={20} />
             </Button>
-            <Button variant="ghost" size="icon" className="hover:bg-blue-50">
+            <Button variant="ghost" size="icon" className="hover:bg-luxury-blush">
               <User size={20} />
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all">
+            <Button className="bg-gradient-to-r from-luxury-cognac to-luxury-amber hover:from-luxury-amber hover:to-luxury-cognac text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all font-bold">
               List Your PG
             </Button>
           </div>
@@ -80,7 +82,7 @@ const Navbar = () => {
                   <Link
                     key={link.label}
                     to={link.to}
-                    className="block px-4 py-3 text-accent hover:text-primary hover:bg-blue-50 rounded-lg transition-colors"
+                    className="block px-4 py-3 text-accent hover:text-luxury-cognac hover:bg-luxury-blush rounded-lg transition-colors font-bold"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}
@@ -101,7 +103,7 @@ const Navbar = () => {
                     <User size={20} />
                   </Button>
                 </div>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full">
+                <Button className="w-full bg-gradient-to-r from-luxury-cognac to-luxury-amber hover:from-luxury-amber hover:to-luxury-cognac text-white py-3 rounded-full font-bold">
                   List Your PG
                 </Button>
               </div>

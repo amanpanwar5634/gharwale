@@ -26,11 +26,11 @@ export default {
       colors: {
         border: "hsl(220 13% 91%)",
         input: "hsl(220 13% 91%)",
-        ring: "hsl(340 82% 52%)",
+        ring: "hsl(28 50% 52%)",
         background: "hsl(0 0% 100%)",
         foreground: "hsl(240 10% 3.9%)",
         primary: {
-          DEFAULT: "hsl(340 82% 52%)",
+          DEFAULT: "hsl(28 50% 52%)",
           foreground: "hsl(0 0% 98%)",
         },
         secondary: {
@@ -38,7 +38,7 @@ export default {
           foreground: "hsl(240 5.9% 10%)",
         },
         accent: {
-          DEFAULT: "hsl(45 93% 47%)",
+          DEFAULT: "hsl(28 29% 55%)",
           foreground: "hsl(240 5.9% 10%)",
         },
         muted: {
@@ -55,13 +55,15 @@ export default {
           DEFAULT: "hsl(0 0% 100%)",
           foreground: "hsl(240 10% 3.9%)",
         },
-        // Luxe 2025 palette
+        // New luxe 2025 palette
         luxury: {
-          pink: "hsl(340 82% 52%)",
-          yellow: "hsl(45 93% 47%)",
-          gold: "hsl(43 96% 56%)",
-          rose: "hsl(351 83% 61%)",
-          amber: "hsl(38 92% 50%)",
+          blush: "hsl(332 43% 96%)",
+          champagne: "hsl(30 36% 82%)",
+          cognac: "hsl(36 35% 55%)",
+          amber: "hsl(28 50% 47%)",
+          emerald: "hsl(152 73% 28%)",
+          espresso: "hsl(177 40% 16%)",
+          dark: "hsl(30 33% 12%)",
         }
       },
       borderRadius: {

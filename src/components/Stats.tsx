@@ -8,40 +8,40 @@ const Stats = () => {
       number: "10,000+",
       label: "Happy Residents",
       description: "Students & professionals trust us",
-      color: "from-blue-500 to-blue-600"
+      color: "from-luxury-cognac to-luxury-amber"
     },
     {
       icon: Shield,
       number: "500+",
       label: "Verified PGs",
       description: "Personally verified by our team",
-      color: "from-green-500 to-green-600"
+      color: "from-luxury-emerald to-luxury-espresso"
     },
     {
       icon: MapPin,
       number: "15+",
       label: "Cities",
       description: "Across major Indian cities",
-      color: "from-yellow-500 to-yellow-600"
+      color: "from-luxury-champagne to-luxury-cognac"
     },
     {
       icon: TrendingUp,
       number: "95%",
       label: "Satisfaction Rate",
       description: "Based on resident feedback",
-      color: "from-purple-500 to-purple-600"
+      color: "from-luxury-amber to-luxury-dark"
     }
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-gray-50 to-mint/20">
+    <section className="py-24 bg-gradient-to-br from-gray-50 to-luxury-blush">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16 space-y-4">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
-              Trusted by <span className="text-blue-600">Thousands</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black">
+              Trusted by <span className="gradient-text">Thousands</span>
             </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto font-medium">
               Join the growing community of satisfied residents across India
             </p>
           </div>
@@ -66,13 +66,13 @@ const Stats = () => {
 
                   {/* Number */}
                   <div className="space-y-2">
-                    <div className={`text-3xl sm:text-4xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                    <div className={`text-3xl sm:text-4xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
                       {stat.number}
                     </div>
-                    <div className="text-lg font-semibold text-foreground">
+                    <div className="text-lg font-bold text-foreground">
                       {stat.label}
                     </div>
-                    <div className="text-sm text-muted-foreground leading-relaxed">
+                    <div className="text-sm text-muted-foreground leading-relaxed font-medium">
                       {stat.description}
                     </div>
                   </div>

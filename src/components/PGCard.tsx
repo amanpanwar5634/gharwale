@@ -32,11 +32,11 @@ const PGCard = ({
   const getGenderColor = (gender: string) => {
     switch (gender.toLowerCase()) {
       case 'boys':
-        return 'bg-luxury-yellow/10 text-luxury-yellow border-luxury-yellow/20';
+        return 'bg-luxury-amber/10 text-luxury-amber border-luxury-amber/20';
       case 'girls':
-        return 'bg-luxury-pink/10 text-luxury-pink border-luxury-pink/20';
+        return 'bg-luxury-champagne/20 text-luxury-cognac border-luxury-champagne/40';
       case 'co-ed':
-        return 'bg-luxury-rose/10 text-luxury-rose border-luxury-rose/20';
+        return 'bg-luxury-emerald/10 text-luxury-emerald border-luxury-emerald/20';
       default:
         return 'bg-gray-100 text-gray-700 border-gray-200';
     }
@@ -53,7 +53,7 @@ const PGCard = ({
 
   return (
     <div 
-      className="group bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border hover:border-luxury-pink/30 transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
+      className="group bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border hover:border-luxury-cognac/30 transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
       onClick={handleCardClick}
     >
       {/* Image Container */}
@@ -79,7 +79,7 @@ const PGCard = ({
       
       {/* Content */}
       <div className="p-6 space-y-4">
-        <h3 className="text-lg font-bold text-primary line-clamp-2 group-hover:text-luxury-pink transition-colors">
+        <h3 className="text-lg font-bold text-primary line-clamp-2 group-hover:text-luxury-cognac transition-colors">
           {name}
         </h3>
         
@@ -117,12 +117,12 @@ const PGCard = ({
         
         <div className="flex items-center justify-between pt-2 border-t">
           <div>
-            <p className="text-xl font-black text-luxury-pink">{rent}</p>
+            <p className="text-xl font-black text-luxury-cognac">{rent}</p>
             <p className="text-xs text-muted-foreground font-medium">+ maintenance</p>
           </div>
           <Button 
             size="sm"
-            className="bg-gradient-to-r from-luxury-pink to-luxury-rose hover:from-luxury-rose hover:to-luxury-pink text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:shadow-xl transition-all"
+            className="bg-gradient-to-r from-luxury-cognac to-luxury-amber hover:from-luxury-amber hover:to-luxury-cognac text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:shadow-xl transition-all"
             onClick={handleBookNow}
           >
             Prebook Now

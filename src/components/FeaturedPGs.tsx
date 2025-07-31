@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import PGCard from "./PGCard";
 import { Button } from "@/components/ui/button";
@@ -111,8 +110,8 @@ const FeaturedPGs = () => {
                 variant={activeFilter === filter.id ? "default" : "outline"}
                 className={`px-6 py-2 rounded-full transition-all font-bold ${
                   activeFilter === filter.id 
-                    ? "bg-gradient-to-r from-luxury-pink to-luxury-rose hover:from-luxury-rose hover:to-luxury-pink text-white shadow-lg" 
-                    : "hover:bg-luxury-pink/10 hover:border-luxury-pink/30 hover:text-luxury-pink"
+                    ? "bg-gradient-to-r from-luxury-cognac to-luxury-amber hover:from-luxury-amber hover:to-luxury-cognac text-white shadow-lg" 
+                    : "hover:bg-luxury-blush hover:border-luxury-cognac/30 hover:text-luxury-cognac"
                 }`}
                 onClick={() => setActiveFilter(filter.id)}
               >
@@ -135,7 +134,7 @@ const FeaturedPGs = () => {
           <div className="text-center">
             <Button 
               size="lg"
-              className="group bg-gradient-to-r from-luxury-pink to-luxury-rose hover:from-luxury-rose hover:to-luxury-pink text-white px-8 py-6 rounded-full text-lg font-bold shadow-lg hover:shadow-xl transition-all"
+              className="group bg-gradient-to-r from-luxury-cognac to-luxury-amber hover:from-luxury-amber hover:to-luxury-cognac text-white px-8 py-6 rounded-full text-lg font-bold shadow-lg hover:shadow-xl transition-all"
               onClick={() => navigate('/marketplace')}
             >
               Prebook More PGs
