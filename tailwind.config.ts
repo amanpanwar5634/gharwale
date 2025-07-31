@@ -20,40 +20,49 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ["Inter", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(220 13% 91%)",
         input: "hsl(220 13% 91%)",
-        ring: "hsl(221.2 83.2% 53.3%)",
+        ring: "hsl(340 82% 52%)",
         background: "hsl(0 0% 100%)",
-        foreground: "hsl(222.2 84% 4.9%)",
+        foreground: "hsl(240 10% 3.9%)",
         primary: {
-          DEFAULT: "hsl(222.2 84% 4.9%)",
-          foreground: "hsl(210 40% 98%)",
+          DEFAULT: "hsl(340 82% 52%)",
+          foreground: "hsl(0 0% 98%)",
         },
         secondary: {
-          DEFAULT: "hsl(210 40% 96%)",
-          foreground: "hsl(222.2 84% 4.9%)",
+          DEFAULT: "hsl(60 9.1% 97.8%)",
+          foreground: "hsl(240 5.9% 10%)",
         },
         accent: {
-          DEFAULT: "hsl(210 40% 96%)",
-          foreground: "hsl(222.2 84% 4.9%)",
+          DEFAULT: "hsl(45 93% 47%)",
+          foreground: "hsl(240 5.9% 10%)",
         },
         muted: {
-          DEFAULT: "hsl(210 40% 96%)",
-          foreground: "hsl(215.4 16.3% 46.9%)",
+          DEFAULT: "hsl(60 4.8% 95.9%)",
+          foreground: "hsl(240 3.8% 46.1%)",
         },
         card: "hsl(0 0% 100%)",
         mint: "hsl(120 60% 95%)",
         destructive: {
           DEFAULT: "hsl(0 84.2% 60.2%)",
-          foreground: "hsl(210 40% 98%)",
+          foreground: "hsl(0 0% 98%)",
         },
         popover: {
           DEFAULT: "hsl(0 0% 100%)",
-          foreground: "hsl(222.2 84% 4.9%)",
+          foreground: "hsl(240 10% 3.9%)",
         },
+        // Luxe 2025 palette
+        luxury: {
+          pink: "hsl(340 82% 52%)",
+          yellow: "hsl(45 93% 47%)",
+          gold: "hsl(43 96% 56%)",
+          rose: "hsl(351 83% 61%)",
+          amber: "hsl(38 92% 50%)",
+        }
       },
       borderRadius: {
         lg: "0.75rem",
@@ -87,6 +96,10 @@ export default {
       screens: {
         'xs': '475px',
       },
+      fontWeight: {
+        'extra-bold': '800',
+        'black': '900',
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

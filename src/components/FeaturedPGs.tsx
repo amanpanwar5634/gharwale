@@ -95,11 +95,11 @@ const FeaturedPGs = () => {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16 space-y-4">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
-              Ready to Book <span className="text-blue-600">PGs</span>
+            <h2 className="heading-lg">
+              Ready to Prebook <span className="gradient-text">PGs</span>
             </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Instant booking available - secure your room today
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto font-medium">
+              Instant prebooking available - secure your room today
             </p>
           </div>
 
@@ -109,10 +109,10 @@ const FeaturedPGs = () => {
               <Button
                 key={filter.id}
                 variant={activeFilter === filter.id ? "default" : "outline"}
-                className={`px-6 py-2 rounded-full transition-all ${
+                className={`px-6 py-2 rounded-full transition-all font-bold ${
                   activeFilter === filter.id 
-                    ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg" 
-                    : "hover:bg-blue-50 hover:border-blue-200"
+                    ? "bg-gradient-to-r from-luxury-pink to-luxury-rose hover:from-luxury-rose hover:to-luxury-pink text-white shadow-lg" 
+                    : "hover:bg-luxury-pink/10 hover:border-luxury-pink/30 hover:text-luxury-pink"
                 }`}
                 onClick={() => setActiveFilter(filter.id)}
               >
@@ -135,10 +135,10 @@ const FeaturedPGs = () => {
           <div className="text-center">
             <Button 
               size="lg"
-              className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 rounded-full text-lg shadow-lg hover:shadow-xl transition-all"
+              className="group bg-gradient-to-r from-luxury-pink to-luxury-rose hover:from-luxury-rose hover:to-luxury-pink text-white px-8 py-6 rounded-full text-lg font-bold shadow-lg hover:shadow-xl transition-all"
               onClick={() => navigate('/marketplace')}
             >
-              Book More PGs
+              Prebook More PGs
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
