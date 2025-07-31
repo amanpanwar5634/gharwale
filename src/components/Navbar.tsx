@@ -1,37 +1,113 @@
 
-import { Search, User, Calendar, Home } from "lucide-react";
+import { useState } from "react";
+import { Search, User, Calendar, Home, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navLinks = [
+    { to: "/marketplace", label: "Boys PG", filter: "boys" },
+    { to: "/marketplace", label: "Girls PG", filter: "girls" },
+    { to: "/marketplace", label: "Co-ed PG", filter: "co-ed" },
+    { to: "/marketplace", label: "Flats", filter: "flats" },
+  ];
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-100">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link to="/" className="text-2xl font-bold text-blue-600 flex items-center gap-2">
-          <Home className="w-8 h-8" />
-          Gharpayy
-        </Link>
-        
-        <div className="hidden md:flex items-center space-x-8">
-          <Link to="/marketplace" className="nav-link">Boys PG</Link>
-          <Link to="/marketplace" className="nav-link">Girls PG</Link>
-          <Link to="/marketplace" className="nav-link">Co-ed PG</Link>
-          <Link to="/marketplace" className="nav-link">Flats</Link>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-b border-gray-100 shadow-sm">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative">
+              <Home className="w-8 h-8 text-blue-600 group-hover:scale-110 transition-transform" />
+              <div className="absolute -inset-1 bg-blue-600/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+              Gharpayy
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                to={link.to}
+                className="relative px-4 py-2 text-accent hover:text-primary transition-colors group"
+              >
+                <span className="relative z-10">{link.label}</span>
+                <div className="absolute inset-0 bg-blue-50 rounded-lg scale-0 group-hover:scale-100 transition-transform origin-center"></div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Desktop Actions */}
+          <div className="hidden lg:flex items-center space-x-3">
+            <Button variant="ghost" size="icon" className="hover:bg-blue-50">
+              <Search size={20} />
+            </Button>
+            <Button variant="ghost" size="icon" className="hover:bg-blue-50">
+              <Calendar size={20} />
+            </Button>
+            <Button variant="ghost" size="icon" className="hover:bg-blue-50">
+              <User size={20} />
+            </Button>
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all">
+              List Your PG
+            </Button>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </Button>
         </div>
 
-        <div className="flex items-center space-x-4">
-          <button className="p-2 hover:text-blue-600 transition-colors">
-            <Search size={20} />
-          </button>
-          <button className="p-2 hover:text-blue-600 transition-colors">
-            <Calendar size={20} />
-          </button>
-          <button className="p-2 hover:text-blue-600 transition-colors">
-            <User size={20} />
-          </button>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
-            List Your PG
-          </button>
-        </div>
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden border-t bg-white/95 backdrop-blur-lg">
+            <div className="px-4 py-6 space-y-4">
+              {/* Mobile Navigation Links */}
+              <div className="space-y-2">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    to={link.to}
+                    className="block px-4 py-3 text-accent hover:text-primary hover:bg-blue-50 rounded-lg transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Mobile Actions */}
+              <div className="pt-4 border-t space-y-3">
+                <div className="flex gap-3">
+                  <Button variant="outline" size="icon" className="flex-1">
+                    <Search size={20} />
+                  </Button>
+                  <Button variant="outline" size="icon" className="flex-1">
+                    <Calendar size={20} />
+                  </Button>
+                  <Button variant="outline" size="icon" className="flex-1">
+                    <User size={20} />
+                  </Button>
+                </div>
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full">
+                  List Your PG
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );

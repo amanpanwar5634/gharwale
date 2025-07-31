@@ -1,6 +1,8 @@
 
-import { Star, MapPin, Users, Wifi, Car } from "lucide-react";
+import { Star, MapPin, Users, Wifi, Car, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface PGCardProps {
   id?: number;
@@ -30,51 +32,70 @@ const PGCard = ({
   const getGenderColor = (gender: string) => {
     switch (gender.toLowerCase()) {
       case 'boys':
-        return 'bg-blue-100 text-blue-700';
+        return 'bg-blue-100 text-blue-700 border-blue-200';
       case 'girls':
-        return 'bg-pink-100 text-pink-700';
+        return 'bg-pink-100 text-pink-700 border-pink-200';
       case 'co-ed':
-        return 'bg-purple-100 text-purple-700';
+        return 'bg-purple-100 text-purple-700 border-purple-200';
       default:
-        return 'bg-gray-100 text-gray-700';
+        return 'bg-gray-100 text-gray-700 border-gray-200';
     }
+  };
+
+  const handleCardClick = () => {
+    navigate(`/pg/${id}`);
+  };
+
+  const handleScheduleVisit = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Handle schedule visit
   };
 
   return (
     <div 
-      className="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer border"
-      onClick={() => navigate(`/pg/${id}`)}
+      className="group bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border hover:border-blue-200 transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
+      onClick={handleCardClick}
     >
+      {/* Image Container */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
           src={image}
           alt={name}
-          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute top-3 left-3">
-          <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getGenderColor(gender)}`}>
+        
+        {/* Overlay Badges */}
+        <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
+          <Badge className={`px-3 py-1 text-xs font-semibold border ${getGenderColor(gender)}`}>
             {gender}
-          </span>
+          </Badge>
+          <Badge className="bg-green-500 text-white px-3 py-1 text-xs font-semibold border-0">
+            ✓ VERIFIED
+          </Badge>
         </div>
-        <div className="absolute top-3 right-3">
-          <span className="bg-green-500 text-white px-2 py-1 text-xs font-semibold rounded">
-            VERIFIED
-          </span>
-        </div>
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
       </div>
       
-      <div className="p-4">
-        <h3 className="text-lg font-semibold text-primary mb-2 line-clamp-2">{name}</h3>
+      {/* Content */}
+      <div className="p-6 space-y-4">
+        {/* Title */}
+        <h3 className="text-lg font-semibold text-primary line-clamp-2 group-hover:text-blue-600 transition-colors">
+          {name}
+        </h3>
         
-        <div className="flex items-center gap-1 mb-2">
-          <MapPin className="w-4 h-4 text-gray-500" />
-          <span className="text-sm text-gray-600">{location}</span>
+        {/* Location */}
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <MapPin className="w-4 h-4" />
+          <span className="text-sm">{location}</span>
         </div>
         
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-1">
-            <Users className="w-4 h-4 text-gray-500" />
-            <span className="text-sm text-gray-600">{roomType} Sharing</span>
+        {/* Features Row */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">{roomType} Sharing</span>
           </div>
           <div className="flex items-center gap-1">
             {Array.from({ length: 5 }).map((_, i) => (
@@ -85,24 +106,33 @@ const PGCard = ({
                 }`}
               />
             ))}
-            <span className="text-xs text-gray-500 ml-1">({reviews})</span>
+            <span className="text-xs text-muted-foreground ml-1">({reviews})</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 mb-3">
-          <Wifi className="w-4 h-4 text-green-600" />
-          <Car className="w-4 h-4 text-green-600" />
-          <span className="text-xs text-gray-500">+ 5 amenities</span>
+        {/* Amenities */}
+        <div className="flex items-center gap-3">
+          <div className="flex gap-2">
+            <Wifi className="w-4 h-4 text-green-600" />
+            <Car className="w-4 h-4 text-green-600" />
+            <Shield className="w-4 h-4 text-green-600" />
+          </div>
+          <span className="text-xs text-muted-foreground">+ 5 amenities</span>
         </div>
         
-        <div className="flex items-center justify-between">
+        {/* Price and CTA */}
+        <div className="flex items-center justify-between pt-2 border-t">
           <div>
             <p className="text-xl font-bold text-blue-600">{rent}</p>
-            <p className="text-xs text-gray-500">+ maintenance</p>
+            <p className="text-xs text-muted-foreground">+ maintenance</p>
           </div>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors">
+          <Button 
+            size="sm"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg hover:shadow-xl transition-all"
+            onClick={handleScheduleVisit}
+          >
             Schedule Visit
-          </button>
+          </Button>
         </div>
       </div>
     </div>
