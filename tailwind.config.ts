@@ -20,8 +20,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Outfit", "system-ui", "sans-serif"],
+        display: ["Space Grotesk", "system-ui", "sans-serif"],
+        sharp: ["Space Grotesk", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(220 13% 91%)",
@@ -55,15 +56,15 @@ export default {
           DEFAULT: "hsl(0 0% 100%)",
           foreground: "hsl(240 10% 3.9%)",
         },
-        // New luxe 2025 palette
+        // Luxe 2025 palette with your specified colors
         luxury: {
-          blush: "hsl(332 43% 96%)",
-          champagne: "hsl(30 36% 82%)",
-          cognac: "hsl(36 35% 55%)",
-          amber: "hsl(28 50% 47%)",
-          emerald: "hsl(152 73% 28%)",
-          espresso: "hsl(177 40% 16%)",
-          dark: "hsl(30 33% 12%)",
+          blush: "hsl(340 36% 96%)", // #f9edf0
+          champagne: "hsl(24 41% 82%)", // #e6c8b7  
+          cognac: "hsl(34 36% 55%)", // #c3955b
+          amber: "hsl(28 50% 47%)", // #ba6a36
+          emerald: "hsl(152 73% 28%)", // keeping emerald as is
+          espresso: "hsl(177 40% 16%)", // #1c3934
+          dark: "hsl(30 33% 12%)", // #261311
         }
       },
       borderRadius: {
@@ -101,6 +102,14 @@ export default {
       fontWeight: {
         'extra-bold': '800',
         'black': '900',
+      },
+      letterSpacing: {
+        'tighter': '-0.04em',
+        'tight': '-0.02em',
+        'normal': '0',
+        'wide': '0.025em',
+        'wider': '0.05em',
+        'widest': '0.1em',
       }
     },
   },
