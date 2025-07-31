@@ -1,5 +1,5 @@
 
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Play, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -21,31 +21,32 @@ const Hero = () => {
           <div className="flex-1 text-center lg:text-left space-y-8 animate-fade-up">
             <div className="inline-flex items-center gap-2 bg-card border rounded-full px-4 py-2 text-sm font-medium">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              India's First Fully-Managed PG Ecosystem
+              India's First Instant PG Booking Platform
             </div>
             
             <div className="space-y-6">
               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight">
-                Find Your
+                Book Your
                 <span className="block bg-gradient-to-r from-blue-600 to-yellow-400 bg-clip-text text-transparent">
                   Perfect PG
                 </span>
-                Home Today
+                Instantly
               </h1>
               
               <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-                Verified PGs, flexi stays, daily cleaning, WiFi, and 24/7 support. 
-                Book visits online and move in hassle-free!
+                Skip the hassle! Prebook verified PGs online with flexi stays, 
+                daily cleaning, WiFi, and 24/7 support. Move in hassle-free!
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button 
                 size="lg"
-                className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 rounded-full text-lg shadow-lg hover:shadow-xl transition-all"
+                className="group bg-green-600 hover:bg-green-700 text-white px-8 py-6 rounded-full text-lg shadow-lg hover:shadow-xl transition-all"
                 onClick={() => navigate('/marketplace')}
               >
-                Explore PGs
+                <CreditCard className="mr-2 h-5 w-5" />
+                Book PG Now
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               
@@ -63,11 +64,11 @@ const Hero = () => {
             <div className="flex flex-wrap justify-center lg:justify-start gap-6 pt-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600">10K+</div>
-                <div className="text-sm text-muted-foreground">Happy Residents</div>
+                <div className="text-sm text-muted-foreground">Instant Bookings</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">500+</div>
-                <div className="text-sm text-muted-foreground">Verified PGs</div>
+                <div className="text-sm text-muted-foreground">Ready PGs</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-yellow-600">15+</div>

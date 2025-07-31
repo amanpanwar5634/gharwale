@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import Navbar from "../components/Navbar";
-import { Star, MapPin, Users, Wifi, Car, Shield, Utensils, Zap, Calendar, Phone } from "lucide-react";
+import { Star, MapPin, Users, Wifi, Car, Shield, Utensils, Zap, Calendar, Phone, CreditCard } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -14,8 +14,11 @@ import { Badge } from "@/components/ui/badge";
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const isBookingMode = searchParams.get('action') === 'book';
   const [selectedDate, setSelectedDate] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
+  const [bookingDate, setBookingDate] = useState("");
+  const [duration, setDuration] = useState("1");
   
   // In a real app, you would fetch the PG details using the id
   const pg = {
@@ -65,12 +68,27 @@ const ProductDetails = () => {
     "10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"
   ];
 
+  const durations = [
+    { value: "1", label: "1 Month" },
+    { value: "3", label: "3 Months" },
+    { value: "6", label: "6 Months" },
+    { value: "12", label: "12 Months" }
+  ];
+
   const handleScheduleVisit = () => {
-    if (!selectedDate || !selectedTime) {
-      alert("Please select both date and time for your visit");
+    if (!selectedDate) {
+      alert("Please select a date for your visit");
       return;
     }
-    alert(`Visit scheduled for ${selectedDate} at ${selectedTime}`);
+    alert(`Visit scheduled for ${selectedDate}`);
+  };
+
+  const handleBookRoom = () => {
+    if (!bookingDate || !duration) {
+      alert("Please select booking date and duration");
+      return;
+    }
+    alert(`Room booked from ${bookingDate} for ${duration} month(s)`);
   };
 
   return (
@@ -197,70 +215,139 @@ const ProductDetails = () => {
                 <div className="text-sm text-gray-600">+ ₹2,000 maintenance</div>
               </div>
 
-              <div className="space-y-4 mb-6">
-                <h3 className="font-semibold flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-blue-600" />
-                  Schedule a Free Visit
-                </h3>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Select Date
-                  </label>
-                  <select 
-                    className="w-full p-2 border rounded-md"
-                    value={selectedDate}
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                  >
-                    <option value="">Choose date</option>
-                    {availableDates.map(date => (
-                      <option key={date} value={date}>
-                        {new Date(date).toLocaleDateString('en-IN')}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              {!isBookingMode ? (
+                <>
+                  <div className="space-y-4 mb-6">
+                    <h3 className="font-semibold flex items-center gap-2">
+                      <Calendar className="w-5 h-5 text-blue-600" />
+                      Schedule a Free Visit
+                    </h3>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Select Date
+                      </label>
+                      <select 
+                        className="w-full p-2 border rounded-md"
+                        value={selectedDate}
+                        onChange={(e) => setSelectedDate(e.target.value)}
+                      >
+                        <option value="">Choose date</option>
+                        {availableDates.map(date => (
+                          <option key={date} value={date}>
+                            {new Date(date).toLocaleDateString('en-IN')}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Select Time
-                  </label>
-                  <select 
-                    className="w-full p-2 border rounded-md"
-                    value={selectedTime}
-                    onChange={(e) => setSelectedTime(e.target.value)}
-                  >
-                    <option value="">Choose time</option>
-                    {availableTimes.map(time => (
-                      <option key={time} value={time}>{time}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+                  <div className="space-y-3">
+                    <Button 
+                      className="w-full bg-blue-600 hover:bg-blue-700"
+                      onClick={handleScheduleVisit}
+                    >
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Schedule Free Visit
+                    </Button>
+                    
+                    <Button 
+                      variant="outline" 
+                      className="w-full border-blue-600 text-blue-600 hover:bg-blue-50"
+                    >
+                      <Phone className="w-4 h-4 mr-2" />
+                      Call Owner
+                    </Button>
 
-              <div className="space-y-3">
-                <Button 
-                  className="w-full bg-blue-600 hover:bg-blue-700"
-                  onClick={handleScheduleVisit}
-                >
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Schedule Free Visit
-                </Button>
-                
-                <Button 
-                  variant="outline" 
-                  className="w-full border-blue-600 text-blue-600 hover:bg-blue-50"
-                >
-                  <Phone className="w-4 h-4 mr-2" />
-                  Call Owner
-                </Button>
+                    <Button 
+                      className="w-full bg-green-600 hover:bg-green-700"
+                      onClick={() => window.location.search = '?action=book'}
+                    >
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      Prebook Room Now
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="space-y-4 mb-6">
+                    <h3 className="font-semibold flex items-center gap-2">
+                      <CreditCard className="w-5 h-5 text-green-600" />
+                      Prebook Your Room
+                    </h3>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Move-in Date
+                      </label>
+                      <input
+                        type="date"
+                        className="w-full p-2 border rounded-md"
+                        value={bookingDate}
+                        onChange={(e) => setBookingDate(e.target.value)}
+                        min={new Date().toISOString().split('T')[0]}
+                      />
+                    </div>
 
-                <Button 
-                  className="w-full bg-green-600 hover:bg-green-700"
-                >
-                  Book Room Now
-                </Button>
-              </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Duration
+                      </label>
+                      <select 
+                        className="w-full p-2 border rounded-md"
+                        value={duration}
+                        onChange={(e) => setDuration(e.target.value)}
+                      >
+                        {durations.map(dur => (
+                          <option key={dur.value} value={dur.value}>
+                            {dur.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="bg-blue-50 p-3 rounded-md">
+                      <div className="text-sm text-blue-800">
+                        <div className="flex justify-between">
+                          <span>Rent ({duration} month{duration !== "1" ? "s" : ""})</span>
+                          <span>₹{(parseInt(duration) * 12000).toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Security Deposit</span>
+                          <span>₹12,000</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Booking Fee</span>
+                          <span>₹999</span>
+                        </div>
+                        <hr className="my-2 border-blue-200" />
+                        <div className="flex justify-between font-semibold">
+                          <span>Total</span>
+                          <span>₹{(parseInt(duration) * 12000 + 12000 + 999).toLocaleString()}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <Button 
+                      className="w-full bg-green-600 hover:bg-green-700"
+                      onClick={handleBookRoom}
+                    >
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      Confirm Booking
+                    </Button>
+                    
+                    <Button 
+                      variant="outline" 
+                      className="w-full"
+                      onClick={() => window.location.search = ''}
+                    >
+                      Back to Visit Scheduling
+                    </Button>
+                  </div>
+                </>
+              )}
 
               {/* Trust Indicators */}
               <div className="mt-6 pt-6 border-t">
@@ -274,12 +361,12 @@ const ProductDetails = () => {
                     <div className="text-xs text-gray-600">Direct Owner</div>
                   </div>
                   <div className="space-y-1">
-                    <div className="text-purple-600 font-semibold">24/7 Support</div>
-                    <div className="text-xs text-gray-600">Always Available</div>
+                    <div className="text-purple-600 font-semibold">Instant Booking</div>
+                    <div className="text-xs text-gray-600">Prebook Online</div>
                   </div>
                   <div className="space-y-1">
                     <div className="text-orange-600 font-semibold">Easy Move-in</div>
-                    <div className="text-xs text-gray-600">Instant Booking</div>
+                    <div className="text-xs text-gray-600">Hassle Free</div>
                   </div>
                 </div>
               </div>

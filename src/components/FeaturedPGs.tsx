@@ -96,10 +96,10 @@ const FeaturedPGs = () => {
           {/* Header */}
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
-              Featured <span className="text-blue-600">PGs</span>
+              Ready to Book <span className="text-blue-600">PGs</span>
             </h2>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Handpicked premium accommodations verified by our team
+              Instant booking available - secure your room today
             </p>
           </div>
 
@@ -138,7 +138,7 @@ const FeaturedPGs = () => {
               className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 rounded-full text-lg shadow-lg hover:shadow-xl transition-all"
               onClick={() => navigate('/marketplace')}
             >
-              View All PGs
+              Book More PGs
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>

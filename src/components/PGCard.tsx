@@ -46,9 +46,10 @@ const PGCard = ({
     navigate(`/pg/${id}`);
   };
 
-  const handleScheduleVisit = (e: React.MouseEvent) => {
+  const handleBookNow = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // Handle schedule visit
+    // Handle direct booking
+    navigate(`/pg/${id}?action=book`);
   };
 
   return (
@@ -129,9 +130,9 @@ const PGCard = ({
           <Button 
             size="sm"
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg hover:shadow-xl transition-all"
-            onClick={handleScheduleVisit}
+            onClick={handleBookNow}
           >
-            Schedule Visit
+            Book Now
           </Button>
         </div>
       </div>
