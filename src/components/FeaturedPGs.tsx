@@ -1,12 +1,16 @@
+
 import { useState } from "react";
 import PGCard from "./PGCard";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { usePGs } from "@/hooks/usePGs";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const FeaturedPGs = () => {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("all");
+  const { data: pgs = [], isLoading, error } = usePGs();
 
   const filters = [
     { id: "all", label: "All PGs" },
@@ -15,78 +19,21 @@ const FeaturedPGs = () => {
     { id: "co-ed", label: "Co-ed PG" }
   ];
 
-  const featuredPGs = [
-    {
-      id: 1,
-      name: "Premium Boys PG Koramangala",
-      rent: "₹12,000/month",
-      image: "https://images.unsplash.com/photo-1555854877-bab0e460b513?auto=format&fit=crop&w=600&q=80",
-      rating: 5,
-      reviews: 12,
-      location: "Koramangala, Bangalore",
-      roomType: "Single",
-      gender: "Boys"
-    },
-    {
-      id: 2,
-      name: "Girls PG Near Whitefield Tech Park",
-      rent: "₹10,500/month",
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80",
-      rating: 4,
-      reviews: 8,
-      location: "Whitefield, Bangalore",
-      roomType: "Double",
-      gender: "Girls"
-    },
-    {
-      id: 3,
-      name: "Modern Co-ed PG HSR Layout",
-      rent: "₹11,000/month",
-      image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80",
-      rating: 5,
-      reviews: 15,
-      location: "HSR Layout, Bangalore",
-      roomType: "Single",
-      gender: "Co-ed"
-    },
-    {
-      id: 4,
-      name: "Budget Friendly Boys PG Electronic City",
-      rent: "₹8,500/month",
-      image: "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?auto=format&fit=crop&w=600&q=80",
-      rating: 4,
-      reviews: 10,
-      location: "Electronic City, Bangalore",
-      roomType: "Triple",
-      gender: "Boys"
-    },
-    {
-      id: 5,
-      name: "Luxury Girls PG Indiranagar",
-      rent: "₹15,000/month",
-      image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80",
-      rating: 5,
-      reviews: 25,
-      location: "Indiranagar, Bangalore",
-      roomType: "Single",
-      gender: "Girls"
-    },
-    {
-      id: 6,
-      name: "Affordable Co-ed PG Marathahalli",
-      rent: "₹9,500/month",
-      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
-      rating: 4,
-      reviews: 18,
-      location: "Marathahalli, Bangalore",
-      roomType: "Double",
-      gender: "Co-ed"
-    }
-  ];
-
   const filteredPGs = activeFilter === "all" 
-    ? featuredPGs 
-    : featuredPGs.filter(pg => pg.gender.toLowerCase() === activeFilter);
+    ? pgs 
+    : pgs.filter(pg => pg.gender.toLowerCase() === activeFilter);
+
+  if (error) {
+    return (
+      <section className="py-24 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <p className="text-red-500">Failed to load PGs. Please try again later.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-24 bg-background">
@@ -123,11 +70,36 @@ const FeaturedPGs = () => {
 
           {/* PG Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
-            {filteredPGs.slice(0, 8).map((pg) => (
-              <div key={pg.id} className="transform hover:scale-[1.02] transition-all duration-300">
-                <PGCard {...pg} />
-              </div>
-            ))}
+            {isLoading ? (
+              // Loading skeletons
+              Array.from({ length: 8 }).map((_, index) => (
+                <div key={index} className="space-y-4">
+                  <Skeleton className="aspect-[4/3] w-full rounded-2xl" />
+                  <div className="p-6 space-y-4">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-8 w-24" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              filteredPGs.slice(0, 8).map((pg) => (
+                <div key={pg.id} className="transform hover:scale-[1.02] transition-all duration-300">
+                  <PGCard
+                    id={pg.id}
+                    name={pg.name}
+                    rent={`₹${pg.rent.toLocaleString()}/month`}
+                    image={pg.images[0] || "https://images.unsplash.com/photo-1555854877-bab0e460b513"}
+                    rating={pg.rating}
+                    reviews={pg.review_count}
+                    location={pg.location}
+                    roomType={pg.room_type}
+                    gender={pg.gender}
+                  />
+                </div>
+              ))
+            )}
           </div>
 
           {/* CTA */}

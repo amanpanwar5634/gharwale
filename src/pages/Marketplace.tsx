@@ -7,75 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MapPin, Filter, Search } from "lucide-react";
-
-const pgs = [
-  {
-    id: 1,
-    name: "Premium Boys PG Koramangala",
-    rent: "₹12,000/month",
-    rating: 5,
-    reviews: 12,
-    image: "https://images.unsplash.com/photo-1555854877-bab0e460b513",
-    location: "Koramangala, Bangalore",
-    roomType: "Single",
-    gender: "Boys"
-  },
-  {
-    id: 2,
-    name: "Girls PG Near Whitefield Tech Park",
-    rent: "₹10,500/month",
-    rating: 4,
-    reviews: 8,
-    image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
-    location: "Whitefield, Bangalore",
-    roomType: "Double",
-    gender: "Girls"
-  },
-  {
-    id: 3,
-    name: "Modern Co-ed PG HSR Layout",
-    rent: "₹11,000/month",
-    rating: 5,
-    reviews: 15,
-    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688",
-    location: "HSR Layout, Bangalore",
-    roomType: "Single",
-    gender: "Co-ed"
-  },
-  {
-    id: 4,
-    name: "Budget Friendly Boys PG Electronic City",
-    rent: "₹8,500/month",
-    rating: 4,
-    reviews: 10,
-    image: "https://images.unsplash.com/photo-1560448204-603b3fc33ddc",
-    location: "Electronic City, Bangalore",
-    roomType: "Triple",
-    gender: "Boys"
-  },
-  {
-    id: 5,
-    name: "Luxury Girls PG Indiranagar",
-    rent: "₹15,000/month",
-    rating: 5,
-    reviews: 25,
-    image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6",
-    location: "Indiranagar, Bangalore",
-    roomType: "Single",
-    gender: "Girls"
-  },
-  {
-    id: 6,
-    name: "Affordable Co-ed PG Marathahalli",
-    rent: "₹9,500/month",
-    rating: 4,
-    reviews: 18,
-    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267",
-    location: "Marathahalli, Bangalore",
-    roomType: "Double",
-    gender: "Co-ed"
-  }
-];
+import { usePGs } from "@/hooks/usePGs";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Marketplace = () => {
   const navigate = useNavigate();
@@ -83,10 +16,61 @@ const Marketplace = () => {
   const [genderFilter, setGenderFilter] = useState("all");
   const [roomTypeFilter, setRoomTypeFilter] = useState("all");
   const [searchLocation, setSearchLocation] = useState("");
+  
+  const { data: pgs = [], isLoading, error } = usePGs();
 
-  const handlePGClick = (pgId: number) => {
-    navigate(`/pg/${pgId}`);
-  };
+  // Filter and sort PGs
+  const filteredAndSortedPGs = React.useMemo(() => {
+    let filtered = pgs;
+
+    // Filter by location search
+    if (searchLocation) {
+      filtered = filtered.filter(pg => 
+        pg.location.toLowerCase().includes(searchLocation.toLowerCase()) ||
+        pg.name.toLowerCase().includes(searchLocation.toLowerCase())
+      );
+    }
+
+    // Filter by gender
+    if (genderFilter !== "all") {
+      filtered = filtered.filter(pg => pg.gender.toLowerCase() === genderFilter);
+    }
+
+    // Filter by room type
+    if (roomTypeFilter !== "all") {
+      filtered = filtered.filter(pg => pg.room_type.toLowerCase() === roomTypeFilter);
+    }
+
+    // Sort
+    switch (sortOrder) {
+      case "rent-low":
+        filtered.sort((a, b) => a.rent - b.rent);
+        break;
+      case "rent-high":
+        filtered.sort((a, b) => b.rent - a.rent);
+        break;
+      case "rating":
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      default: // newest
+        filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    }
+
+    return filtered;
+  }, [pgs, searchLocation, genderFilter, roomTypeFilter, sortOrder]);
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+        <main className="container mx-auto px-4 pt-32 pb-16">
+          <div className="text-center">
+            <p className="text-red-500">Failed to load PGs. Please try again later.</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -168,18 +152,13 @@ const Marketplace = () => {
                 </SelectContent>
               </Select>
             </div>
-
-            <Button className="bg-blue-600 hover:bg-blue-700 w-full md:w-auto">
-              <Search className="w-4 h-4 mr-2" />
-              Search PGs
-            </Button>
           </div>
         </div>
 
         {/* Results Count */}
         <div className="flex items-center justify-between mb-6">
           <p className="text-gray-600">
-            Found <span className="font-semibold">{pgs.length}</span> PGs in Bangalore
+            Found <span className="font-semibold">{filteredAndSortedPGs.length}</span> PGs in Bangalore
           </p>
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <Filter className="w-4 h-4" />
@@ -189,17 +168,44 @@ const Marketplace = () => {
 
         {/* PG Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {pgs.map((pg) => (
-            <PGCard key={pg.id} {...pg} />
-          ))}
+          {isLoading ? (
+            // Loading skeletons
+            Array.from({ length: 8 }).map((_, index) => (
+              <div key={index} className="bg-white rounded-lg overflow-hidden shadow-sm">
+                <Skeleton className="aspect-[4/3] w-full" />
+                <div className="p-4 space-y-4">
+                  <Skeleton className="h-6 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-8 w-24" />
+                </div>
+              </div>
+            ))
+          ) : (
+            filteredAndSortedPGs.map((pg) => (
+              <PGCard 
+                key={pg.id} 
+                id={pg.id}
+                name={pg.name}
+                rent={`₹${pg.rent.toLocaleString()}/month`}
+                image={pg.images[0] || "https://images.unsplash.com/photo-1555854877-bab0e460b513"}
+                rating={pg.rating}
+                reviews={pg.review_count}
+                location={pg.location}
+                roomType={pg.room_type}
+                gender={pg.gender}
+              />
+            ))
+          )}
         </div>
 
-        {/* Load More */}
-        <div className="text-center mt-12">
-          <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
-            Load More PGs
-          </Button>
-        </div>
+        {/* No results message */}
+        {!isLoading && filteredAndSortedPGs.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No PGs found matching your criteria.</p>
+            <p className="text-gray-400">Try adjusting your filters or search terms.</p>
+          </div>
+        )}
       </main>
     </div>
   );

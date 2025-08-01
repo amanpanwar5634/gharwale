@@ -14,7 +14,204 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          booking_fee: number | null
+          created_at: string | null
+          duration_months: number
+          guest_email: string
+          guest_name: string
+          guest_phone: string
+          id: number
+          move_in_date: string
+          pg_id: number | null
+          status: string | null
+          total_amount: number
+        }
+        Insert: {
+          booking_fee?: number | null
+          created_at?: string | null
+          duration_months: number
+          guest_email: string
+          guest_name: string
+          guest_phone: string
+          id?: number
+          move_in_date: string
+          pg_id?: number | null
+          status?: string | null
+          total_amount: number
+        }
+        Update: {
+          booking_fee?: number | null
+          created_at?: string | null
+          duration_months?: number
+          guest_email?: string
+          guest_name?: string
+          guest_phone?: string
+          id?: number
+          move_in_date?: string
+          pg_id?: number | null
+          status?: string | null
+          total_amount?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_pg_id_fkey"
+            columns: ["pg_id"]
+            isOneToOne: false
+            referencedRelation: "pgs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pgs: {
+        Row: {
+          amenities: string[] | null
+          available: boolean | null
+          created_at: string | null
+          description: string | null
+          gender: string
+          id: number
+          images: string[] | null
+          location: string
+          maintenance_fee: number | null
+          name: string
+          nearby_places: string[] | null
+          pg_rules: string[] | null
+          rating: number | null
+          rent: number
+          review_count: number | null
+          room_type: string
+          security_deposit: number | null
+          updated_at: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          amenities?: string[] | null
+          available?: boolean | null
+          created_at?: string | null
+          description?: string | null
+          gender: string
+          id?: number
+          images?: string[] | null
+          location: string
+          maintenance_fee?: number | null
+          name: string
+          nearby_places?: string[] | null
+          pg_rules?: string[] | null
+          rating?: number | null
+          rent: number
+          review_count?: number | null
+          room_type: string
+          security_deposit?: number | null
+          updated_at?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          amenities?: string[] | null
+          available?: boolean | null
+          created_at?: string | null
+          description?: string | null
+          gender?: string
+          id?: number
+          images?: string[] | null
+          location?: string
+          maintenance_fee?: number | null
+          name?: string
+          nearby_places?: string[] | null
+          pg_rules?: string[] | null
+          rating?: number | null
+          rent?: number
+          review_count?: number | null
+          room_type?: string
+          security_deposit?: number | null
+          updated_at?: string | null
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          comment: string | null
+          created_at: string | null
+          id: number
+          pg_id: number | null
+          rating: number
+          reviewer_email: string
+          reviewer_name: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string | null
+          id?: number
+          pg_id?: number | null
+          rating: number
+          reviewer_email: string
+          reviewer_name: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string | null
+          id?: number
+          pg_id?: number | null
+          rating?: number
+          reviewer_email?: string
+          reviewer_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_pg_id_fkey"
+            columns: ["pg_id"]
+            isOneToOne: false
+            referencedRelation: "pgs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      visits: {
+        Row: {
+          created_at: string | null
+          id: number
+          pg_id: number | null
+          status: string | null
+          visit_date: string
+          visit_time: string
+          visitor_email: string
+          visitor_name: string
+          visitor_phone: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          pg_id?: number | null
+          status?: string | null
+          visit_date: string
+          visit_time: string
+          visitor_email: string
+          visitor_name: string
+          visitor_phone: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          pg_id?: number | null
+          status?: string | null
+          visit_date?: string
+          visit_time?: string
+          visitor_email?: string
+          visitor_name?: string
+          visitor_phone?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visits_pg_id_fkey"
+            columns: ["pg_id"]
+            isOneToOne: false
+            referencedRelation: "pgs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
