@@ -22,6 +22,26 @@ export interface PG {
   available: boolean;
   created_at: string;
   updated_at: string;
+  // New fields added in migration
+  owner_id?: string | null;
+  status?: string;
+  featured?: boolean;
+  virtual_tour_url?: string | null;
+  video_url?: string | null;
+  property_age?: number | null;
+  total_floors?: number | null;
+  property_type?: string | null;
+  furnishing_status?: string | null;
+  balcony_count?: number;
+  bathroom_count?: number;
+  parking_available?: boolean;
+  meal_service?: boolean;
+  laundry_service?: boolean;
+  cleaning_service?: boolean;
+  metro_distance?: number | null;
+  bus_distance?: number | null;
+  hospital_distance?: number | null;
+  mall_distance?: number | null;
 }
 
 export const usePGs = () => {
