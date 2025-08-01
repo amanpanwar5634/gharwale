@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { Eye, EyeOff, ArrowLeft, User } from 'lucide-react';
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -31,6 +31,17 @@ const Auth = () => {
       navigate('/');
     }
   }, [user, navigate]);
+
+  const handleTryDemo = () => {
+    setSignInData({
+      email: 'demo@gharpayy.com',
+      password: 'demo123'
+    });
+    toast({
+      title: "Demo Credentials Loaded",
+      description: "You can now click 'Sign In' to try the demo account.",
+    });
+  };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,7 +132,7 @@ const Auth = () => {
             Back to Home
           </Button>
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-luxury-cognac mb-2">Welcome to SnuggleStay</h1>
+            <h1 className="text-3xl font-bold text-luxury-cognac mb-2">Welcome to Gharpayy</h1>
             <p className="text-muted-foreground">Find your perfect PG with ease</p>
           </div>
         </div>
@@ -141,6 +152,21 @@ const Auth = () => {
               </TabsList>
               
               <TabsContent value="signin">
+                <div className="mb-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleTryDemo}
+                    className="w-full border-luxury-cognac text-luxury-cognac hover:bg-luxury-blush"
+                  >
+                    <User className="w-4 h-4 mr-2" />
+                    Try Demo Account
+                  </Button>
+                  <p className="text-xs text-muted-foreground text-center mt-2">
+                    Click to load demo credentials for testing
+                  </p>
+                </div>
+                
                 <form onSubmit={handleSignIn} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="signin-email">Email</Label>

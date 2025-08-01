@@ -10,6 +10,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, fullName: string, phone: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
+  createDemoAccount: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,6 +39,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const createDemoAccount = async () => {
+    console.log('Attempting to create demo account...');
+    const demoCredentials = {
+      email: 'demo@gharpayy.com',
+      password: 'demo123',
+      fullName: 'Demo User',
+      phone: '+91 9876543210'
+    };
+
+    // Try to create the demo account (it will fail if it already exists, which is fine)
+    const { error } = await signUp(
+      demoCredentials.email,
+      demoCredentials.password,
+      demoCredentials.fullName,
+      demoCredentials.phone
+    );
+
+    if (error && !error.message.includes('User already registered')) {
+      console.error('Error creating demo account:', error);
+    } else {
+      console.log('Demo account created or already exists');
+    }
+  };
 
   const signUp = async (email: string, password: string, fullName: string, phone: string) => {
     const redirectUrl = `${window.location.origin}/`;
@@ -75,7 +100,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       loading,
       signUp,
       signIn,
-      signOut
+      signOut,
+      createDemoAccount
     }}>
       {children}
     </AuthContext.Provider>
