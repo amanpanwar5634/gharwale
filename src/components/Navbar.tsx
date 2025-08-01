@@ -1,112 +1,212 @@
 
-import { useState } from "react";
-import { Search, User, Calendar, Sparkles, Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Menu, X, User, Heart, LogOut } from "lucide-react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, signOut } = useAuth();
 
-  const navLinks = [
-    { to: "/marketplace", label: "Boys PG", filter: "boys" },
-    { to: "/marketplace", label: "Girls PG", filter: "girls" },
-    { to: "/marketplace", label: "Co-ed PG", filter: "co-ed" },
-    { to: "/marketplace", label: "Flats", filter: "flats" },
-  ];
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
+
+  const getUserInitials = () => {
+    if (user?.user_metadata?.full_name) {
+      return user.user_metadata.full_name
+        .split(' ')
+        .map((n: string) => n[0])
+        .join('')
+        .toUpperCase()
+        .slice(0, 2);
+    }
+    return user?.email?.[0]?.toUpperCase() || 'U';
+  };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-b border-gray-100 shadow-sm">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled || location.pathname !== '/' 
+        ? 'bg-white/95 backdrop-blur-md shadow-lg border-b' 
+        : 'bg-transparent'
+    }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          {/* Logo - Lovable style */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-luxury-cognac to-luxury-amber flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
-              <div className="absolute -inset-1 bg-gradient-to-br from-luxury-cognac/30 to-luxury-amber/30 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-10 h-10 bg-gradient-to-r from-luxury-cognac to-luxury-amber rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-xl">S</span>
             </div>
-            <span className="text-2xl font-black bg-gradient-to-r from-luxury-cognac to-luxury-amber bg-clip-text text-transparent">
-              Gharpayy
+            <span className="text-xl font-bold bg-gradient-to-r from-luxury-cognac to-luxury-amber bg-clip-text text-transparent">
+              SnuggleStay
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                to={link.to}
-                className="relative px-4 py-2 text-accent hover:text-luxury-cognac transition-colors group font-bold"
-              >
-                <span className="relative z-10">{link.label}</span>
-                <div className="absolute inset-0 bg-luxury-blush rounded-lg scale-0 group-hover:scale-100 transition-transform origin-center"></div>
-              </Link>
-            ))}
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link 
+              to="/" 
+              className={`font-medium transition-colors ${
+                location.pathname === '/' 
+                  ? 'text-luxury-cognac' 
+                  : scrolled || location.pathname !== '/' 
+                    ? 'text-gray-700 hover:text-luxury-cognac' 
+                    : 'text-white hover:text-luxury-champagne'
+              }`}
+            >
+              Home
+            </Link>
+            <Link 
+              to="/marketplace" 
+              className={`font-medium transition-colors ${
+                location.pathname === '/marketplace' 
+                  ? 'text-luxury-cognac' 
+                  : scrolled || location.pathname !== '/' 
+                    ? 'text-gray-700 hover:text-luxury-cognac' 
+                    : 'text-white hover:text-luxury-champagne'
+              }`}
+            >
+              Find PGs
+            </Link>
+            
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Avatar>
+                      <AvatarFallback className="bg-luxury-cognac text-white">
+                        {getUserInitials()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                    <User className="mr-2 h-4 w-4" />
+                    Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                    <Heart className="mr-2 h-4 w-4" />
+                    Wishlist
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Button
+                  variant="ghost"
+                  onClick={() => navigate('/auth')}
+                  className={`font-medium ${
+                    scrolled || location.pathname !== '/' 
+                      ? 'text-gray-700 hover:text-luxury-cognac hover:bg-luxury-blush' 
+                      : 'text-white hover:text-luxury-champagne hover:bg-white/10'
+                  }`}
+                >
+                  Sign In
+                </Button>
+                <Button
+                  onClick={() => navigate('/auth')}
+                  className="bg-gradient-to-r from-luxury-cognac to-luxury-amber hover:from-luxury-amber hover:to-luxury-cognac text-white px-6 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all"
+                >
+                  Get Started
+                </Button>
+              </div>
+            )}
           </div>
 
-          {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center space-x-3">
-            <Button variant="ghost" size="icon" className="hover:bg-luxury-blush">
-              <Search size={20} />
-            </Button>
-            <Button variant="ghost" size="icon" className="hover:bg-luxury-blush">
-              <Calendar size={20} />
-            </Button>
-            <Button variant="ghost" size="icon" className="hover:bg-luxury-blush">
-              <User size={20} />
-            </Button>
-            <Button className="bg-gradient-to-r from-luxury-cognac to-luxury-amber hover:from-luxury-amber hover:to-luxury-cognac text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all font-bold">
-              List Your PG
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsOpen(!isOpen)}
+              className={scrolled || location.pathname !== '/' ? 'text-gray-700' : 'text-white'}
+            >
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
-
-          {/* Mobile Menu Toggle */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </Button>
         </div>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden border-t bg-white/95 backdrop-blur-lg">
-            <div className="px-4 py-6 space-y-4">
-              {/* Mobile Navigation Links */}
-              <div className="space-y-2">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.label}
-                    to={link.to}
-                    className="block px-4 py-3 text-accent hover:text-luxury-cognac hover:bg-luxury-blush rounded-lg transition-colors font-bold"
-                    onClick={() => setIsMobileMenuOpen(false)}
+        {isOpen && (
+          <div className="md:hidden py-4 border-t bg-white/95 backdrop-blur-md">
+            <div className="flex flex-col space-y-4">
+              <Link 
+                to="/" 
+                className="text-gray-700 hover:text-luxury-cognac font-medium transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/marketplace" 
+                className="text-gray-700 hover:text-luxury-cognac font-medium transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Find PGs
+              </Link>
+              {user ? (
+                <>
+                  <Link 
+                    to="/dashboard" 
+                    className="text-gray-700 hover:text-luxury-cognac font-medium transition-colors"
+                    onClick={() => setIsOpen(false)}
                   >
-                    {link.label}
+                    Dashboard
                   </Link>
-                ))}
-              </div>
-
-              {/* Mobile Actions */}
-              <div className="pt-4 border-t space-y-3">
-                <div className="flex gap-3">
-                  <Button variant="outline" size="icon" className="flex-1">
-                    <Search size={20} />
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      handleSignOut();
+                      setIsOpen(false);
+                    }}
+                    className="justify-start text-gray-700 hover:text-luxury-cognac"
+                  >
+                    Sign Out
                   </Button>
-                  <Button variant="outline" size="icon" className="flex-1">
-                    <Calendar size={20} />
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      navigate('/auth');
+                      setIsOpen(false);
+                    }}
+                    className="justify-start text-gray-700 hover:text-luxury-cognac"
+                  >
+                    Sign In
                   </Button>
-                  <Button variant="outline" size="icon" className="flex-1">
-                    <User size={20} />
+                  <Button
+                    onClick={() => {
+                      navigate('/auth');
+                      setIsOpen(false);
+                    }}
+                    className="bg-gradient-to-r from-luxury-cognac to-luxury-amber hover:from-luxury-amber hover:to-luxury-cognac text-white rounded-full font-bold"
+                  >
+                    Get Started
                   </Button>
-                </div>
-                <Button className="w-full bg-gradient-to-r from-luxury-cognac to-luxury-amber hover:from-luxury-amber hover:to-luxury-cognac text-white py-3 rounded-full font-bold">
-                  List Your PG
-                </Button>
-              </div>
+                </>
+              )}
             </div>
           </div>
         )}

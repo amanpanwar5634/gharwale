@@ -1,8 +1,10 @@
 
-import { Star, MapPin, Users, Wifi, Car, Shield } from "lucide-react";
+import { Star, MapPin, Users, Wifi, Car, Shield, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useWishlist } from "@/hooks/useWishlist";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface PGCardProps {
   id?: number;
@@ -28,6 +30,8 @@ const PGCard = ({
   gender 
 }: PGCardProps) => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
   const getGenderColor = (gender: string) => {
     switch (gender.toLowerCase()) {
@@ -51,6 +55,21 @@ const PGCard = ({
     navigate(`/pg/${id}?action=book`);
   };
 
+  const handleWishlistToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+
+    if (isInWishlist(id)) {
+      removeFromWishlist.mutate(id);
+    } else {
+      addToWishlist.mutate(id);
+    }
+  };
+
   return (
     <div 
       className="group bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border hover:border-luxury-cognac/30 transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
@@ -69,9 +88,25 @@ const PGCard = ({
           <Badge className={`px-3 py-1 text-xs font-bold border ${getGenderColor(gender)}`}>
             {gender}
           </Badge>
-          <Badge className="bg-green-500 text-white px-3 py-1 text-xs font-bold border-0">
-            ✓ VERIFIED
-          </Badge>
+          <div className="flex gap-2">
+            <Badge className="bg-green-500 text-white px-3 py-1 text-xs font-bold border-0">
+              ✓ VERIFIED
+            </Badge>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="p-2 h-8 w-8 bg-white/90 hover:bg-white"
+              onClick={handleWishlistToggle}
+            >
+              <Heart 
+                className={`w-4 h-4 ${
+                  user && isInWishlist(id) 
+                    ? 'fill-red-500 text-red-500' 
+                    : 'text-gray-600'
+                }`} 
+              />
+            </Button>
+          </div>
         </div>
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
