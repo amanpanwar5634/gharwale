@@ -24,6 +24,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Set up auth state listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log('Auth state change:', event, session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
@@ -41,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const createDemoAccount = async () => {
-    console.log('Attempting to create demo account...');
+    console.log('Creating demo account...');
     const demoCredentials = {
       email: 'demo@gharpayy.com',
       password: 'demo123',
@@ -49,18 +50,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       phone: '+91 9876543210'
     };
 
-    // Try to create the demo account (it will fail if it already exists, which is fine)
-    const { error } = await signUp(
-      demoCredentials.email,
-      demoCredentials.password,
-      demoCredentials.fullName,
-      demoCredentials.phone
-    );
+    try {
+      // Try to create the demo account
+      const { error } = await supabase.auth.signUp({
+        email: demoCredentials.email,
+        password: demoCredentials.password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/`,
+          data: {
+            full_name: demoCredentials.fullName,
+            phone: demoCredentials.phone
+          }
+        }
+      });
 
-    if (error && !error.message.includes('User already registered')) {
-      console.error('Error creating demo account:', error);
-    } else {
-      console.log('Demo account created or already exists');
+      if (error && !error.message.includes('User already registered')) {
+        console.error('Error creating demo account:', error);
+        throw error;
+      } else {
+        console.log('Demo account created or already exists');
+      }
+    } catch (error) {
+      console.error('Demo account creation failed:', error);
+      throw error;
     }
   };
 
@@ -82,10 +94,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signIn = async (email: string, password: string) => {
+    console.log('Attempting to sign in with:', email);
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
+    
+    if (error) {
+      console.error('Sign in error:', error);
+    } else {
+      console.log('Sign in successful');
+    }
+    
     return { error };
   };
 

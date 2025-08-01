@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -12,10 +11,11 @@ import { Eye, EyeOff, ArrowLeft, User } from 'lucide-react';
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { user, signIn, signUp } = useAuth();
+  const { user, signIn, signUp, createDemoAccount } = useAuth();
   const { toast } = useToast();
   
   const [isLoading, setIsLoading] = useState(false);
+  const [isDemoLoading, setIsDemoLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [signInData, setSignInData] = useState({ email: '', password: '' });
   const [signUpData, setSignUpData] = useState({
@@ -32,15 +32,67 @@ const Auth = () => {
     }
   }, [user, navigate]);
 
-  const handleTryDemo = () => {
-    setSignInData({
-      email: 'demo@gharpayy.com',
-      password: 'demo123'
-    });
-    toast({
-      title: "Demo Credentials Loaded",
-      description: "You can now click 'Sign In' to try the demo account.",
-    });
+  const handleTryDemo = async () => {
+    setIsDemoLoading(true);
+    
+    try {
+      console.log('Creating/accessing demo account...');
+      
+      // First try to create the demo account
+      await createDemoAccount();
+      
+      // Then attempt to sign in with demo credentials
+      const { error } = await signIn('demo@gharpayy.com', 'demo123');
+      
+      if (error) {
+        // If sign-in fails, it might be because the account needs to be created first
+        console.log('Direct sign-in failed, trying to create account first');
+        const { error: signUpError } = await signUp(
+          'demo@gharpayy.com', 
+          'demo123', 
+          'Demo User', 
+          '+91 9876543210'
+        );
+        
+        if (signUpError && !signUpError.message.includes('User already registered')) {
+          throw signUpError;
+        }
+        
+        // Try signing in again after account creation
+        const { error: secondSignInError } = await signIn('demo@gharpayy.com', 'demo123');
+        if (secondSignInError) {
+          throw secondSignInError;
+        }
+      }
+      
+      toast({
+        title: "Demo Account Ready!",
+        description: "You are now signed in with the demo account.",
+      });
+      
+      navigate('/');
+      
+    } catch (error: any) {
+      console.error('Demo account error:', error);
+      toast({
+        title: "Demo Account Issue",
+        description: "There was an issue with the demo account. You can still create your own account or try again.",
+        variant: "destructive",
+      });
+      
+      // Fall back to pre-filling the form
+      setSignInData({
+        email: 'demo@gharpayy.com',
+        password: 'demo123'
+      });
+      
+      toast({
+        title: "Demo Credentials Loaded",
+        description: "Demo credentials have been pre-filled. Click 'Sign In' to continue.",
+      });
+    } finally {
+      setIsDemoLoading(false);
+    }
   };
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -157,13 +209,14 @@ const Auth = () => {
                     type="button"
                     variant="outline"
                     onClick={handleTryDemo}
+                    disabled={isDemoLoading}
                     className="w-full border-luxury-cognac text-luxury-cognac hover:bg-luxury-blush"
                   >
                     <User className="w-4 h-4 mr-2" />
-                    Try Demo Account
+                    {isDemoLoading ? "Setting up Demo..." : "Try Demo Account"}
                   </Button>
                   <p className="text-xs text-muted-foreground text-center mt-2">
-                    Click to load demo credentials for testing
+                    {isDemoLoading ? "Creating demo account and signing you in..." : "Click to instantly access the demo"}
                   </p>
                 </div>
                 
