@@ -20,12 +20,12 @@ const Marketplace = () => {
 
   // Custom images for first 6 listings
  const customImages = [
-  "/images/bliss-coed-manayata.jpg",
-  "/images/cia-coed-manyata.jpg",
-  "/images/cool-coed-manyata.jpg",
-  "/images/bliss-coed-manayata.jpg",
-  "/images/cia-coed-manyata.jpg",
-  "/images/cool-coed-manyata.jpg",
+  "/pg-images/1.jpg",
+  "/pg-images/2.jpg",
+  "/pg-images/1.jpg",
+  "/pg-images/2.jpg",
+  "/pg-images/1.jpg",
+  "/pg-images/2.jpg",
 ];
 
 
