@@ -22,10 +22,10 @@ const Marketplace = () => {
  const customImages = [
   "/pg-images/1.jpg",
   "/pg-images/2.jpg",
-  "/pg-images/1.jpg",
-  "/pg-images/2.jpg",
-  "/pg-images/1.jpg",
-  "/pg-images/2.jpg",
+  "/pg-images/3.jpg",
+  "/pg-images/4.jpg",
+  "/pg-images/5.jpg",
+  "/pg-images/6.jpg",
 ];
 
 
