@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
+  // Allows to automatically instanciate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.12 (cd3cf9e)"
@@ -433,54 +433,36 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
-          bank_account: string | null
           created_at: string | null
           email_verified: boolean | null
           full_name: string | null
           id: string
-          ifsc: string | null
-          kyc_status: string
           phone: string | null
           phone_verified: boolean | null
-          referral_code: string | null
-          role: string
           trust_score: number | null
           updated_at: string | null
-          upi_id: string | null
         }
         Insert: {
           avatar_url?: string | null
-          bank_account?: string | null
           created_at?: string | null
           email_verified?: boolean | null
           full_name?: string | null
           id: string
-          ifsc?: string | null
-          kyc_status?: string
           phone?: string | null
           phone_verified?: boolean | null
-          referral_code?: string | null
-          role?: string
           trust_score?: number | null
           updated_at?: string | null
-          upi_id?: string | null
         }
         Update: {
           avatar_url?: string | null
-          bank_account?: string | null
           created_at?: string | null
           email_verified?: boolean | null
           full_name?: string | null
           id?: string
-          ifsc?: string | null
-          kyc_status?: string
           phone?: string | null
           phone_verified?: boolean | null
-          referral_code?: string | null
-          role?: string
           trust_score?: number | null
           updated_at?: string | null
-          upi_id?: string | null
         }
         Relationships: []
       }
@@ -524,201 +506,6 @@ export type Database = {
             columns: ["pg_id"]
             isOneToOne: false
             referencedRelation: "pgs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      referral_commissions: {
-        Row: {
-          amount: number
-          approved_at: string | null
-          created_at: string
-          currency: string
-          id: string
-          notes: string | null
-          paid_at: string | null
-          referral_id: string
-          referrer_id: string
-          status: Database["public"]["Enums"]["commission_status"]
-          type: Database["public"]["Enums"]["commission_type"]
-          updated_at: string
-        }
-        Insert: {
-          amount: number
-          approved_at?: string | null
-          created_at?: string
-          currency?: string
-          id?: string
-          notes?: string | null
-          paid_at?: string | null
-          referral_id: string
-          referrer_id: string
-          status?: Database["public"]["Enums"]["commission_status"]
-          type: Database["public"]["Enums"]["commission_type"]
-          updated_at?: string
-        }
-        Update: {
-          amount?: number
-          approved_at?: string | null
-          created_at?: string
-          currency?: string
-          id?: string
-          notes?: string | null
-          paid_at?: string | null
-          referral_id?: string
-          referrer_id?: string
-          status?: Database["public"]["Enums"]["commission_status"]
-          type?: Database["public"]["Enums"]["commission_type"]
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "referral_commissions_referral_id_fkey"
-            columns: ["referral_id"]
-            isOneToOne: false
-            referencedRelation: "referrals"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "referral_commissions_referrer_id_fkey"
-            columns: ["referrer_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      referral_payouts: {
-        Row: {
-          bank_account: string | null
-          created_at: string
-          currency: string
-          failed_reason: string | null
-          id: string
-          notes: string | null
-          processed_at: string | null
-          provider: string | null
-          referrer_id: string
-          status: Database["public"]["Enums"]["payout_status"]
-          total_amount: number
-          updated_at: string
-          upi_id: string | null
-        }
-        Insert: {
-          bank_account?: string | null
-          created_at?: string
-          currency?: string
-          failed_reason?: string | null
-          id?: string
-          notes?: string | null
-          processed_at?: string | null
-          provider?: string | null
-          referrer_id: string
-          status?: Database["public"]["Enums"]["payout_status"]
-          total_amount: number
-          updated_at?: string
-          upi_id?: string | null
-        }
-        Update: {
-          bank_account?: string | null
-          created_at?: string
-          currency?: string
-          failed_reason?: string | null
-          id?: string
-          notes?: string | null
-          processed_at?: string | null
-          provider?: string | null
-          referrer_id?: string
-          status?: Database["public"]["Enums"]["payout_status"]
-          total_amount?: number
-          updated_at?: string
-          upi_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "referral_payouts_referrer_id_fkey"
-            columns: ["referrer_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      referrals: {
-        Row: {
-          assigned_to: string | null
-          category: string | null
-          closed_at: string | null
-          created_at: string
-          extra_notes: string | null
-          id: string
-          lead_email: string | null
-          lead_name: string
-          lead_phone: string
-          pg_id: number | null
-          preferred_area: string | null
-          referrer_id: string
-          referrer_type: string | null
-          status: Database["public"]["Enums"]["referral_status"]
-          updated_at: string
-          verified_at: string | null
-        }
-        Insert: {
-          assigned_to?: string | null
-          category?: string | null
-          closed_at?: string | null
-          created_at?: string
-          extra_notes?: string | null
-          id?: string
-          lead_email?: string | null
-          lead_name: string
-          lead_phone: string
-          pg_id?: number | null
-          preferred_area?: string | null
-          referrer_id: string
-          referrer_type?: string | null
-          status?: Database["public"]["Enums"]["referral_status"]
-          updated_at?: string
-          verified_at?: string | null
-        }
-        Update: {
-          assigned_to?: string | null
-          category?: string | null
-          closed_at?: string | null
-          created_at?: string
-          extra_notes?: string | null
-          id?: string
-          lead_email?: string | null
-          lead_name?: string
-          lead_phone?: string
-          pg_id?: number | null
-          preferred_area?: string | null
-          referrer_id?: string
-          referrer_type?: string | null
-          status?: Database["public"]["Enums"]["referral_status"]
-          updated_at?: string
-          verified_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "referrals_assigned_to_fkey"
-            columns: ["assigned_to"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "referrals_pg_id_fkey"
-            columns: ["pg_id"]
-            isOneToOne: false
-            referencedRelation: "pgs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "referrals_referrer_id_fkey"
-            columns: ["referrer_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -875,20 +662,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      commission_status: "pending" | "approved" | "paid" | "cancelled"
-      commission_type: "lead_verified" | "closed_won" | "fallback"
-      payout_status: "pending" | "approved" | "processing" | "paid" | "failed"
-      referral_status:
-        | "new"
-        | "interested"
-        | "call_scheduled"
-        | "visit_scheduled"
-        | "visited"
-        | "verified"
-        | "closed_won"
-        | "closed_lost"
-        | "duplicate"
-        | "rejected"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1015,22 +789,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      commission_status: ["pending", "approved", "paid", "cancelled"],
-      commission_type: ["lead_verified", "closed_won", "fallback"],
-      payout_status: ["pending", "approved", "processing", "paid", "failed"],
-      referral_status: [
-        "new",
-        "interested",
-        "call_scheduled",
-        "visit_scheduled",
-        "visited",
-        "verified",
-        "closed_won",
-        "closed_lost",
-        "duplicate",
-        "rejected",
-      ],
-    },
+    Enums: {},
   },
 } as const

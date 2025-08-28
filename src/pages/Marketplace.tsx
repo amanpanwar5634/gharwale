@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from "../components/Navbar";
@@ -5,7 +6,7 @@ import PGCard from "../components/PGCard";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { MapPin, Filter } from "lucide-react";
+import { MapPin, Filter, Search } from "lucide-react";
 import { usePGs } from "@/hooks/usePGs";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -18,21 +19,11 @@ const Marketplace = () => {
   
   const { data: pgs = [], isLoading, error } = usePGs();
 
-  // Custom images for first 6 listings
- const customImages = [
-  "/pg-images/1.jpg",
-  "/pg-images/2.jpg",
-  "/pg-images/3.jpg",
-  "/pg-images/4.jpg",
-  "/pg-images/5.jpg",
-  "/pg-images/6.jpg",
-];
-
-
   // Filter and sort PGs
   const filteredAndSortedPGs = React.useMemo(() => {
     let filtered = pgs;
 
+    // Filter by location search
     if (searchLocation) {
       filtered = filtered.filter(pg => 
         pg.location.toLowerCase().includes(searchLocation.toLowerCase()) ||
@@ -40,14 +31,17 @@ const Marketplace = () => {
       );
     }
 
+    // Filter by gender
     if (genderFilter !== "all") {
       filtered = filtered.filter(pg => pg.gender.toLowerCase() === genderFilter);
     }
 
+    // Filter by room type
     if (roomTypeFilter !== "all") {
       filtered = filtered.filter(pg => pg.room_type.toLowerCase() === roomTypeFilter);
     }
 
+    // Sort
     switch (sortOrder) {
       case "rent-low":
         filtered.sort((a, b) => a.rent - b.rent);
@@ -93,9 +87,10 @@ const Marketplace = () => {
         {/* Search and Filters */}
         <div className="bg-white p-6 rounded-lg shadow-sm mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-end">
-            {/* Search Location */}
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Search Location</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Search Location
+              </label>
               <div className="relative">
                 <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
@@ -107,9 +102,10 @@ const Marketplace = () => {
               </div>
             </div>
             
-            {/* Filters */}
             <div className="w-full md:w-48">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Gender Preference</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Gender Preference
+              </label>
               <Select value={genderFilter} onValueChange={setGenderFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Gender" />
@@ -124,7 +120,9 @@ const Marketplace = () => {
             </div>
 
             <div className="w-full md:w-48">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Room Type</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Room Type
+              </label>
               <Select value={roomTypeFilter} onValueChange={setRoomTypeFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Room Type" />
@@ -139,7 +137,9 @@ const Marketplace = () => {
             </div>
 
             <div className="w-full md:w-48">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Sort By
+              </label>
               <Select value={sortOrder} onValueChange={setSortOrder}>
                 <SelectTrigger>
                   <SelectValue placeholder="Sort by" />
@@ -169,6 +169,7 @@ const Marketplace = () => {
         {/* PG Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {isLoading ? (
+            // Loading skeletons
             Array.from({ length: 8 }).map((_, index) => (
               <div key={index} className="bg-white rounded-lg overflow-hidden shadow-sm">
                 <Skeleton className="aspect-[4/3] w-full" />
@@ -181,14 +182,13 @@ const Marketplace = () => {
               </div>
             ))
           ) : (
-            filteredAndSortedPGs.map((pg, index) => (
+            filteredAndSortedPGs.map((pg) => (
               <PGCard 
                 key={pg.id} 
                 id={pg.id}
                 name={pg.name}
                 rent={`₹${pg.rent.toLocaleString()}/month`}
-                // Use custom images for first 6 listings
-                image={customImages[index] || pg.images[0] || "https://images.unsplash.com/photo-1555854877-bab0e460b513"}
+                image={pg.images[0] || "https://images.unsplash.com/photo-1555854877-bab0e460b513"}
                 rating={pg.rating}
                 reviews={pg.review_count}
                 location={pg.location}
@@ -199,6 +199,7 @@ const Marketplace = () => {
           )}
         </div>
 
+        {/* No results message */}
         {!isLoading && filteredAndSortedPGs.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-500 text-lg">No PGs found matching your criteria.</p>
