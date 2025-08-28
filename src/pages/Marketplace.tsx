@@ -20,12 +20,12 @@ const Marketplace = () => {
 
   // Custom images for first 6 listings
  const customImages = [
-  "/assets/bliss-coed-manayata.jpg",
-  "/assets/cia-coed-manyata.jpg",
-  "/assets/cool-coed-manyata.jpg",
-  "/assets/bliss-coed-manayata.jpg", // repeat or use other images
-  "/assets/cia-coed-manyata.jpg",
-  "/assets/cool-coed-manyata.jpg",
+  "../assets/bliss-coed-manayata.jpg",
+  "../assets/cia-coed-manyata.jpg",
+  "../assets/cool-coed-manyata.jpg",
+  "../assets/bliss-coed-manayata.jpg", // repeat or use other images
+  "../assets/cia-coed-manyata.jpg",
+  "../assets/cool-coed-manyata.jpg",
 ];
 
   // Filter and sort PGs
