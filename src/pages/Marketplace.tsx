@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Filter, Search } from "lucide-react";
 import { usePGs } from "@/hooks/usePGs";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CarouselSyncProvider } from "@/contexts/CarouselSyncContext";
 
 const Marketplace = () => {
   const navigate = useNavigate();
@@ -167,37 +168,40 @@ const Marketplace = () => {
         </div>
 
         {/* PG Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {isLoading ? (
-            // Loading skeletons
-            Array.from({ length: 8 }).map((_, index) => (
-              <div key={index} className="bg-white rounded-lg overflow-hidden shadow-sm">
-                <Skeleton className="aspect-[4/3] w-full" />
-                <div className="p-4 space-y-4">
-                  <Skeleton className="h-6 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-8 w-24" />
+        <CarouselSyncProvider>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {isLoading ? (
+              // Loading skeletons
+              Array.from({ length: 8 }).map((_, index) => (
+                <div key={index} className="bg-white rounded-lg overflow-hidden shadow-sm">
+                  <Skeleton className="aspect-[4/3] w-full" />
+                  <div className="p-4 space-y-4">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-8 w-24" />
+                  </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            filteredAndSortedPGs.map((pg) => (
-              <PGCard 
-                key={pg.id} 
-                id={pg.id}
-                name={pg.name}
-                rent={`₹${pg.rent.toLocaleString()}/month`}
-                image={pg.images[0] || "https://images.unsplash.com/photo-1555854877-bab0e460b513"}
-                rating={pg.rating}
-                reviews={pg.review_count}
-                location={pg.location}
-                roomType={pg.room_type}
-                gender={pg.gender}
-              />
-            ))
-          )}
-        </div>
+              ))
+            ) : (
+              filteredAndSortedPGs.map((pg) => (
+                <PGCard 
+                  key={pg.id} 
+                  id={pg.id}
+                  name={pg.name}
+                  rent={`₹${pg.rent.toLocaleString()}/month`}
+                  image={pg.images[0] || "https://images.unsplash.com/photo-1555854877-bab0e460b513"}
+                  images={pg.images}
+                  rating={pg.rating}
+                  reviews={pg.review_count}
+                  location={pg.location}
+                  roomType={pg.room_type}
+                  gender={pg.gender}
+                />
+              ))
+            )}
+          </div>
+        </CarouselSyncProvider>
 
         {/* No results message */}
         {!isLoading && filteredAndSortedPGs.length === 0 && (

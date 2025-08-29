@@ -1,10 +1,11 @@
-
-import { Bed, Utensils, Home, Sparkles, Wifi, Video, Heart } from "lucide-react";
+import React, { useEffect, useRef } from 'react';
+import { Bed, Utensils, Home, Sparkles, Wifi, Video } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useWishlist } from "@/hooks/useWishlist";
+import { useCarouselSync } from "@/contexts/CarouselSyncContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation } from 'swiper/modules';
+import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
@@ -62,7 +63,19 @@ const PGCard = ({
   };
 
   // Use images array if available, otherwise fallback to single image
-  const displayImages = images.length > 0 ? images : [image];
+  const displayImages = images && images.length > 0 ? images : [image];
+
+  const swiperRef = useRef<any>(null);
+  const { tick } = useCarouselSync();
+
+  useEffect(() => {
+    const swiper = swiperRef.current;
+    if (!swiper || displayImages.length === 0) return;
+    const targetIndex = tick % displayImages.length;
+    if (swiper.realIndex !== targetIndex) {
+      swiper.slideTo(targetIndex, 600);
+    }
+  }, [tick, displayImages.length]);
 
   return (
     <div 
@@ -73,15 +86,12 @@ const PGCard = ({
       {/* Image Slider */}
       <div className="swiper-container relative w-full h-[400px] overflow-hidden">
         <Swiper
-          modules={[Autoplay, Navigation]}
+          modules={[Navigation]}
           spaceBetween={0}
           slidesPerView={1}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          loop={true}
-          className="swiper-wrapper w-full h-full"
+          speed={600}
+          className="w-full h-full"
+          onSwiper={(s) => (swiperRef.current = s)}
         >
           {displayImages.map((img, index) => (
             <SwiperSlide key={index} className="swiper-slide">
