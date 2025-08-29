@@ -6,6 +6,7 @@ import { ArrowRight, Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { usePGs } from "@/hooks/usePGs";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CarouselSyncProvider } from "@/contexts/CarouselSyncContext";
 
 const FeaturedPGs = () => {
   const navigate = useNavigate();
@@ -69,38 +70,41 @@ const FeaturedPGs = () => {
           </div>
 
           {/* PG Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
-            {isLoading ? (
-              // Loading skeletons
-              Array.from({ length: 8 }).map((_, index) => (
-                <div key={index} className="space-y-4">
-                  <Skeleton className="aspect-[4/3] w-full rounded-2xl" />
-                  <div className="p-6 space-y-4">
-                    <Skeleton className="h-6 w-3/4" />
-                    <Skeleton className="h-4 w-1/2" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-8 w-24" />
+          <CarouselSyncProvider>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
+              {isLoading ? (
+                // Loading skeletons
+                Array.from({ length: 8 }).map((_, index) => (
+                  <div key={index} className="space-y-4">
+                    <Skeleton className="aspect-[4/3] w-full rounded-2xl" />
+                    <div className="p-6 space-y-4">
+                      <Skeleton className="h-6 w-3/4" />
+                      <Skeleton className="h-4 w-1/2" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-8 w-24" />
+                    </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              filteredPGs.slice(0, 8).map((pg) => (
-                <div key={pg.id} className="transform hover:scale-[1.02] transition-all duration-300">
-                  <PGCard
-                    id={pg.id}
-                    name={pg.name}
-                    rent={`₹${pg.rent.toLocaleString()}/month`}
-                    image={pg.images[0] || "https://images.unsplash.com/photo-1555854877-bab0e460b513"}
-                    rating={pg.rating}
-                    reviews={pg.review_count}
-                    location={pg.location}
-                    roomType={pg.room_type}
-                    gender={pg.gender}
-                  />
-                </div>
-              ))
-            )}
-          </div>
+                ))
+              ) : (
+                filteredPGs.slice(0, 8).map((pg) => (
+                  <div key={pg.id} className="transform hover:scale-[1.02] transition-all duration-300">
+                    <PGCard
+                      id={pg.id}
+                      name={pg.name}
+                      rent={`₹${pg.rent.toLocaleString()}/month`}
+                      image={pg.images[0] || "https://images.unsplash.com/photo-1555854877-bab0e460b513"}
+                      images={pg.images}
+                      rating={pg.rating}
+                      reviews={pg.review_count}
+                      location={pg.location}
+                      roomType={pg.room_type}
+                      gender={pg.gender}
+                    />
+                  </div>
+                ))
+              )}
+            </div>
+          </CarouselSyncProvider>
 
           {/* CTA */}
           <div className="text-center">
