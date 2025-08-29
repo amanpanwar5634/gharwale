@@ -72,17 +72,27 @@ const PGCard = ({
     >
       {/* Image Slider */}
       <div className="swiper-container relative w-full h-[400px] overflow-hidden">
-        <div className="swiper-wrapper flex">
+        <Swiper
+          modules={[Autoplay, Navigation]}
+          spaceBetween={0}
+          slidesPerView={1}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          className="swiper-wrapper w-full h-full"
+        >
           {displayImages.map((img, index) => (
-            <div key={index} className="swiper-slide">
+            <SwiperSlide key={index} className="swiper-slide">
               <img
                 src={img}
                 alt={`${name} - Image ${index + 1}`}
                 className="w-full h-full object-cover"
               />
-            </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
         
         {/* GharPayy Classics Tag */}
         <span className="absolute bottom-0 left-0 bg-black text-yellow-400 text-lg font-bold py-2 px-3 rounded-tr-2xl z-10">
