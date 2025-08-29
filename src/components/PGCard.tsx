@@ -66,7 +66,7 @@ const PGCard = ({
 
   return (
     <div 
-      className="w-full max-w-[1100px] mx-auto my-5 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200"
+      className="w-full max-w-[1100px] mx-auto my-5 bg-white overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200"
       onClick={handleCardClick}
       style={{ minHeight: '750px' }}
     >
@@ -99,25 +99,12 @@ const PGCard = ({
           GharPayy Classics
         </span>
 
-        {/* Wishlist Button */}
-        <button
-          className="absolute top-4 right-4 p-2 bg-white/90 hover:bg-white rounded-full shadow-md z-10"
-          onClick={handleWishlistToggle}
-        >
-          <Heart 
-            className={`w-5 h-5 ${
-              user && isInWishlist(id) 
-                ? 'fill-red-500 text-red-500' 
-                : 'text-gray-600'
-            }`} 
-          />
-        </button>
       </div>
       
       {/* Content */}
-      <div className="flex flex-col flex-grow p-5">
+      <div className="flex flex-col flex-grow">
         {/* Place Name with Blue Background */}
-        <h2 className="text-white bg-blue-700 text-xl font-bold py-2 px-3 mb-0 -mx-5">
+        <h2 className="text-white bg-blue-700 text-xl font-bold py-2 px-3 mb-0">
           {name}
         </h2>
         
