@@ -74,8 +74,13 @@ const PGCard = ({
     const swiper = swiperRef.current;
     if (!swiper || displayImages.length === 0) return;
     const targetIndex = tick % displayImages.length;
-    if (swiper.realIndex !== targetIndex) {
-      swiper.slideTo(targetIndex, 600);
+    const current = swiper.realIndex ?? swiper.activeIndex ?? 0;
+    if (current !== targetIndex) {
+      if (typeof swiper.slideToLoop === 'function') {
+        swiper.slideToLoop(targetIndex, 600);
+      } else if (typeof swiper.slideTo === 'function') {
+        swiper.slideTo(targetIndex, 600);
+      }
     }
   }, [tick, displayImages.length]);
 
@@ -87,7 +92,7 @@ const PGCard = ({
       {/* Image Carousel */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <Swiper
-          ref={swiperRef}
+          onSwiper={(instance) => { swiperRef.current = instance; }}
           modules={[Navigation]}
           navigation={{
             nextEl: '.swiper-button-next',
