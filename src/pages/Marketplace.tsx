@@ -189,7 +189,7 @@ const Marketplace = () => {
                   key={pg.id} 
                   id={pg.id}
                   name={pg.name}
-                  rent={`₹${pg.rent.toLocaleString()}/month`}
+                  rent={pg.rent}
                   image={pg.images[0] || "https://images.unsplash.com/photo-1555854877-bab0e460b513"}
                   images={pg.images}
                   rating={pg.rating}
