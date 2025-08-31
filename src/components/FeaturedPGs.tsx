@@ -91,7 +91,7 @@ const FeaturedPGs = () => {
                     <PGCard
                       id={pg.id}
                       name={pg.name}
-                      rent={pg.rent}
+                      rent={`₹${pg.rent.toLocaleString()}/month`}
                       image={pg.images[0] || "https://images.unsplash.com/photo-1555854877-bab0e460b513"}
                       images={pg.images}
                       rating={pg.rating}
