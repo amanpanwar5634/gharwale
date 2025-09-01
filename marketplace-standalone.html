@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gharpayy - Find Your Perfect PG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', system-ui, sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #c3955b, #ba6a36);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #c3955b, #ba6a36);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #374151;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #c3955b;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #c3955b, #ba6a36);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ba6a36, #c3955b);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: #374151;
+        }
+
+        .btn-ghost:hover {
+            background: rgba(195, 149, 91, 0.1);
+            color: #c3955b;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 128px;
+            padding-bottom: 4rem;
+        }
+
+        .hero-section {
+            margin-bottom: 2rem;
+        }
+
+        .hero-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+        }
+
+        .hero-description {
+            color: #6b7280;
+            font-size: 1.125rem;
+        }
+
+        /* Search and Filters */
+        .search-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        @media (min-width: 768px) {
+            .filter-row {
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #c3955b;
+            box-shadow: 0 0 0 3px rgba(195, 149, 91, 0.1);
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon input {
+            padding-left: 2.5rem;
+        }
+
+        .input-icon .icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            width: 16px;
+            height: 16px;
+        }
+
+        .select-input {
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* Results Section */
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-count {
+            color: #6b7280;
+        }
+
+        .results-count .count {
+            font-weight: 600;
+        }
+
+        .verified-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* PG Grid */
+        .pg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* PG Card Styles */
+        .pg-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e5e7eb;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pg-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .card-image-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .classics-badge {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: black;
+            color: #fbbf24;
+            font-size: 0.875rem;
+            font-weight: bold;
+            padding: 0.5rem 0.75rem;
+            border-top-right-radius: 16px;
+            z-index: 10;
+        }
+
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            color: white;
+            background: #1d4ed8;
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding: 0.75rem;
+            margin: 0;
+        }
+
+        .card-description {
+            color: #6b7280;
+            margin: 0.75rem 0;
+            padding: 0 0.75rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+            flex: 1;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .feature-icon {
+            color: #3b82f6;
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+        }
+
+        .offer-text {
+            color: #dc2626;
+            font-weight: bold;
+            margin: 1rem 0;
+            padding: 0 0.75rem;
+        }
+
+        .whatsapp-btn {
+            background: #16a34a;
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0 0.75rem 1rem 0.75rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .whatsapp-btn:hover {
+            background: #15803d;
+        }
+
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .skeleton-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .skeleton-image {
+            height: 250px;
+        }
+
+        .skeleton-content {
+            padding: 1rem;
+        }
+
+        .skeleton-line {
+            height: 1rem;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+        }
+
+        .skeleton-line:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 1.875rem;
+            }
+
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+
+            .results-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .pg-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* No results message */
+        .no-results {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .no-results-text {
+            color: #6b7280;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .no-results-subtext {
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">G</div>
+                    <span class="logo-text">Gharpayy</span>
+                </a>
+                
+                <div class="nav-links">
+                    <a href="#" class="nav-link">Home</a>
+                    <a href="#" class="nav-link active">Find PGs</a>
+                    <a href="#" class="btn btn-ghost">Sign In</a>
+                    <a href="#" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container main-content">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title">Find Your Perfect PG</h1>
+            <p class="hero-description">
+                Discover verified PGs with world-class amenities, zero brokerage, and flexible stays
+            </p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-section">
+            <div class="filter-row">
+                <div class="form-group">
+                    <label class="form-label">Search Location</label>
+                    <div class="input-icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <input type="text" id="searchLocation" class="form-input" placeholder="Enter area, landmark, or PG name...">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Gender Preference</label>
+                    <select id="genderFilter" class="select-input">
+                        <option value="all">All Gender Types</option>
+                        <option value="boys">Boys Only</option>
+                        <option value="girls">Girls Only</option>
+                        <option value="co-ed">Co-ed</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Room Type</label>
+                    <select id="roomTypeFilter" class="select-input">
+                        <option value="all">All Room Types</option>
+                        <option value="single">Single Sharing</option>
+                        <option value="double">Double Sharing</option>
+                        <option value="triple">Triple Sharing</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Sort By</label>
+                    <select id="sortOrder" class="select-input">
+                        <option value="newest">Newest First</option>
+                        <option value="rent-low">Rent: Low to High</option>
+                        <option value="rent-high">Rent: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Header -->
+        <div class="results-header">
+            <p class="results-count">
+                Found <span class="count" id="resultsCount">0</span> PGs in Bangalore
+            </p>
+            <div class="verified-badge">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                </svg>
+                <span>Verified PGs Only</span>
+            </div>
+        </div>
+
+        <!-- PG Grid -->
+        <div id="pgGrid" class="pg-grid">
+            <!-- Loading skeletons will be shown initially -->
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="no-results" style="display: none;">
+            <p class="no-results-text">No PGs found matching your criteria.</p>
+            <p class="no-results-subtext">Try adjusting your filters or search terms.</p>
+        </div>
+    </main>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // Sample PG data
+        const pgsData = [
+            {
+                id: 1,
+                name: "Sunshine PG",
+                location: "Koramangala",
+                rent: 12000,
+                room_type: "single",
+                gender: "boys",
+                rating: 4.5,
+                review_count: 25,
+                images: [
+                    "https://images.unsplash.com/photo-1555854877-bab0e460b513?w=400",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
+                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400"
+                ],
+                created_at: "2024-01-15"
+            },
+            {
+                id: 2,
+                name: "Green Valley PG",
+                location: "BTM Layout",
+                rent: 8500,
+                room_type: "double",
+                gender: "girls",
+                rating: 4.2,
+                review_count: 18,
+                images: [
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
+                    "https://images.unsplash.com/photo-1555854877-bab0e460b513?w=400"
+                ],
+                created_at: "2024-01-10"
+            },
+            {
+                id: 3,
+                name: "Urban Heights PG",
+                location: "Electronic City",
+                rent: 15000,
+                room_type: "single",
+                gender: "co-ed",
+                rating: 4.8,
+                review_count: 42,
+                images: [
+                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400",
+                    "https://images.unsplash.com/photo-1555854877-bab0e460b513?w=400",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400"
+                ],
+                created_at: "2024-01-20"
+            },
+            {
+                id: 4,
+                name: "Classic Residency",
+                location: "Whitefield",
+                rent: 11000,
+                room_type: "triple",
+                gender: "boys",
+                rating: 4.0,
+                review_count: 12,
+                images: [
+                    "https://images.unsplash.com/photo-1555854877-bab0e460b513?w=400"
+                ],
+                created_at: "2024-01-05"
+            },
+            {
+                id: 5,
+                name: "Royal Garden PG",
+                location: "Indiranagar",
+                rent: 9500,
+                room_type: "double",
+                gender: "girls",
+                rating: 4.3,
+                review_count: 31,
+                images: [
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
+                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400"
+                ],
+                created_at: "2024-01-18"
+            },
+            {
+                id: 6,
+                name: "Modern Living PG",
+                location: "JP Nagar",
+                rent: 13500,
+                room_type: "single",
+                gender: "co-ed",
+                rating: 4.6,
+                review_count: 28,
+                images: [
+                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400",
+                    "https://images.unsplash.com/photo-1555854877-bab0e460b513?w=400"
+                ],
+                created_at: "2024-01-22"
+            }
+        ];
+
+        // State management
+        let currentPGs = [...pgsData];
+        let filters = {
+            searchLocation: '',
+            genderFilter: 'all',
+            roomTypeFilter: 'all',
+            sortOrder: 'newest'
+        };
+
+        // Carousel sync
+        let carouselTick = 0;
+        let swiperInstances = [];
+
+        // DOM elements
+        const searchInput = document.getElementById('searchLocation');
+        const genderSelect = document.getElementById('genderFilter');
+        const roomTypeSelect = document.getElementById('roomTypeFilter');
+        const sortSelect = document.getElementById('sortOrder');
+        const pgGrid = document.getElementById('pgGrid');
+        const resultsCount = document.getElementById('resultsCount');
+        const noResults = document.getElementById('noResults');
+
+        // Event listeners
+        searchInput.addEventListener('input', (e) => {
+            filters.searchLocation = e.target.value;
+            filterAndDisplayPGs();
+        });
+
+        genderSelect.addEventListener('change', (e) => {
+            filters.genderFilter = e.target.value;
+            filterAndDisplayPGs();
+        });
+
+        roomTypeSelect.addEventListener('change', (e) => {
+            filters.roomTypeFilter = e.target.value;
+            filterAndDisplayPGs();
+        });
+
+        sortSelect.addEventListener('change', (e) => {
+            filters.sortOrder = e.target.value;
+            filterAndDisplayPGs();
+        });
+
+        // Filter and sort PGs
+        function filterAndSortPGs() {
+            let filtered = [...pgsData];
+
+            // Filter by location search
+            if (filters.searchLocation) {
+                filtered = filtered.filter(pg => 
+                    pg.location.toLowerCase().includes(filters.searchLocation.toLowerCase()) ||
+                    pg.name.toLowerCase().includes(filters.searchLocation.toLowerCase())
+                );
+            }
+
+            // Filter by gender
+            if (filters.genderFilter !== "all") {
+                filtered = filtered.filter(pg => pg.gender.toLowerCase() === filters.genderFilter);
+            }
+
+            // Filter by room type
+            if (filters.roomTypeFilter !== "all") {
+                filtered = filtered.filter(pg => pg.room_type.toLowerCase() === filters.roomTypeFilter);
+            }
+
+            // Sort
+            switch (filters.sortOrder) {
+                case "rent-low":
+                    filtered.sort((a, b) => a.rent - b.rent);
+                    break;
+                case "rent-high":
+                    filtered.sort((a, b) => b.rent - a.rent);
+                    break;
+                case "rating":
+                    filtered.sort((a, b) => b.rating - a.rating);
+                    break;
+                default: // newest
+                    filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+            }
+
+            return filtered;
+        }
+
+        // Create PG card HTML
+        function createPGCard(pg) {
+            const cardId = `pg-card-${pg.id}`;
+            return `
+                <div class="pg-card" onclick="handlePGClick(${pg.id})">
+                    <div class="card-image-container">
+                        <div class="swiper" id="${cardId}">
+                            <div class="swiper-wrapper">
+                                ${pg.images.map((img, index) => `
+                                    <div class="swiper-slide">
+                                        <img src="${img}" alt="${pg.name} - Image ${index + 1}">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <span class="classics-badge">GharPayy Classics</span>
+                    </div>
+                    
+                    <div class="card-content">
+                        <h2 class="card-title">${pg.name}</h2>
+                        
+                        <p class="card-description">
+                            Affordable stays with all essentials in ${pg.location}.
+                        </p>
+                        
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2V7"></path>
+                                </svg>
+                                Comfort & Convenience
+                            </li>
+                            <li class="feature-item">
+                                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
+                                </svg>
+                                Good Food
+                            </li>
+                            <li class="feature-item">
+                                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                </svg>
+                                Private/Shared Stay
+                            </li>
+                            <li class="feature-item">
+                                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                </svg>
+                                Professional Housekeeping
+                            </li>
+                            <li class="feature-item">
+                                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
+                                </svg>
+                                High-Speed WiFi
+                            </li>
+                            <li class="feature-item">
+                                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                CCTV Surveillance
+                            </li>
+                        </ul>
+                        
+                        <p class="offer-text">
+                            SAVE EXTRA 1K OFF ON PREBOOKING
+                        </p>
+                        
+                        <button class="whatsapp-btn" onclick="handleWhatsAppClick(event)">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                            </svg>
+                            Chat on WhatsApp
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create loading skeleton
+        function createLoadingSkeleton() {
+            return `
+                <div class="skeleton-card">
+                    <div class="skeleton skeleton-image"></div>
+                    <div class="skeleton-content">
+                        <div class="skeleton skeleton-line" style="width: 75%;"></div>
+                        <div class="skeleton skeleton-line" style="width: 50%;"></div>
+                        <div class="skeleton skeleton-line" style="width: 100%;"></div>
+                        <div class="skeleton skeleton-line" style="width: 60%;"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize Swiper for a card
+        function initializeSwiper(cardId, images) {
+            const swiper = new Swiper(`#${cardId}`, {
+                slidesPerView: 1,
+                speed: 600,
+                loop: true,
+                autoHeight: false
+            });
+            
+            swiperInstances.push({
+                swiper,
+                totalSlides: images.length
+            });
+            
+            return swiper;
+        }
+
+        // Display PGs
+        function displayPGs(pgs) {
+            // Clear existing Swiper instances
+            swiperInstances = [];
+            
+            if (pgs.length === 0) {
+                pgGrid.innerHTML = '';
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+                pgGrid.innerHTML = pgs.map(pg => createPGCard(pg)).join('');
+                
+                // Initialize Swiper for each card
+                pgs.forEach(pg => {
+                    const cardId = `pg-card-${pg.id}`;
+                    initializeSwiper(cardId, pg.images);
+                });
+            }
+            
+            resultsCount.textContent = pgs.length;
+        }
+
+        // Filter and display PGs
+        function filterAndDisplayPGs() {
+            currentPGs = filterAndSortPGs();
+            displayPGs(currentPGs);
+        }
+
+        // Event handlers
+        function handlePGClick(id) {
+            console.log(`Clicked PG with ID: ${id}`);
+            // In a real app, this would navigate to the PG details page
+            alert(`Navigating to PG details for PG ID: ${id}`);
+        }
+
+        function handleWhatsAppClick(event) {
+            event.stopPropagation();
+            window.open('https://wa.me/918307396042', '_blank');
+        }
+
+        // Carousel sync function
+        function syncCarousels() {
+            carouselTick++;
+            swiperInstances.forEach(instance => {
+                const targetIndex = carouselTick % instance.totalSlides;
+                if (instance.swiper && instance.swiper.realIndex !== targetIndex) {
+                    instance.swiper.slideTo(targetIndex, 600);
+                }
+            });
+        }
+
+        // Show loading initially
+        function showLoading() {
+            pgGrid.innerHTML = Array.from({ length: 6 }, () => createLoadingSkeleton()).join('');
+        }
+
+        // Initialize the page
+        function init() {
+            showLoading();
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                filterAndDisplayPGs();
+            }, 1000);
+            
+            // Start carousel sync
+            setInterval(syncCarousels, 3000);
+        }
+
+        // Start the application
+        init();
+    </script>
+</body>
+</html>
