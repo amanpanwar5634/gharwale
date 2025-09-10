@@ -155,6 +155,36 @@
             color: white;
             text-decoration: none;
         }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .mobile-h1 { font-size: 1.5rem !important; }
+            .mobile-h2 { font-size: 1.125rem !important; }
+            .mobile-text-lg { font-size: 0.875rem !important; }
+            .mobile-text-xl { font-size: 1rem !important; }
+            .mobile-text-2xl { font-size: 1.25rem !important; }
+            .mobile-text-3xl { font-size: 1.5rem !important; }
+            .mobile-nav-text { font-size: 0.875rem !important; }
+            .mobile-button-text { font-size: 0.75rem !important; }
+            .mobile-small-text { font-size: 0.75rem !important; }
+            
+            /* Gallery buttons */
+            #view-photos-btn, #wishlist-btn {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.75rem !important;
+            }
+            
+            /* Booking card adjustments */
+            .booking-card-mobile {
+                padding: 1rem !important;
+            }
+            
+            /* Modal adjustments */
+            .modal-content {
+                margin: 1rem;
+                padding: 1.5rem !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -166,9 +196,9 @@
                     <h1 class="text-xl font-bold text-luxury-cognac">GharPayy</h1>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="index.html" class="text-gray-600 hover:text-luxury-cognac">Home</a>
-                    <a href="marketplace.html" class="text-gray-600 hover:text-luxury-cognac">Marketplace</a>
-                    <button class="btn-primary">Sign In</button>
+                    <a href="index.html" class="text-gray-600 hover:text-luxury-cognac mobile-nav-text">Home</a>
+                    <a href="marketplace.html" class="text-gray-600 hover:text-luxury-cognac mobile-nav-text">Marketplace</a>
+                    <button class="btn-primary mobile-button-text">Sign In</button>
                 </div>
             </div>
         </div>
@@ -221,10 +251,10 @@
                         <div class="space-y-4">
                             <div class="flex items-start justify-between">
                                 <div>
-                                    <h1 id="pg-name" class="text-3xl font-bold mb-2"></h1>
+                                    <h1 id="pg-name" class="text-3xl font-bold mb-2 mobile-h1"></h1>
                                     <div class="flex items-center gap-2 text-gray-600 mb-4">
                                         <i class="fas fa-map-marker-alt"></i>
-                                        <span id="pg-location"></span>
+                                        <span id="pg-location" class="mobile-text-lg"></span>
                                     </div>
                                 </div>
                                 <div class="flex gap-2">
@@ -248,19 +278,19 @@
 
                         <!-- Description -->
                         <div class="bg-white rounded-lg p-6 shadow-sm">
-                            <h2 class="text-xl font-semibold mb-4">About this PG</h2>
+                            <h2 class="text-xl font-semibold mb-4 mobile-h2">About this PG</h2>
                             <p id="pg-description" class="text-gray-600"></p>
                         </div>
 
                         <!-- Features -->
                         <div class="bg-white rounded-lg p-6 shadow-sm">
-                            <h2 class="text-xl font-semibold mb-4">Features & Facilities</h2>
+                            <h2 class="text-xl font-semibold mb-4 mobile-h2">Features & Facilities</h2>
                             <div id="features-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
                         </div>
 
                         <!-- Property Details -->
                         <div class="bg-white rounded-lg p-6 shadow-sm">
-                            <h2 class="text-xl font-semibold mb-4">Property Details</h2>
+                            <h2 class="text-xl font-semibold mb-4 mobile-h2">Property Details</h2>
                             <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-home text-gray-600"></i>
@@ -289,7 +319,7 @@
                         <!-- Reviews -->
                         <div class="bg-white rounded-lg p-6 shadow-sm">
                             <div class="flex items-center justify-between mb-4">
-                                <h2 class="text-xl font-semibold">Reviews (25)</h2>
+                                <h2 class="text-xl font-semibold mobile-h2">Reviews (25)</h2>
                                 <button id="add-review-btn" class="btn-primary">Add Review</button>
                             </div>
                             <div class="space-y-6">
@@ -316,11 +346,11 @@
 
                     <!-- Right Column - Booking Card -->
                     <div class="space-y-6">
-                        <div class="bg-white rounded-lg p-6 shadow-sm sticky top-32">
+                        <div class="bg-white rounded-lg p-6 shadow-sm sticky top-32 booking-card-mobile">
                             <div class="space-y-4">
                                 <div class="space-y-2">
                                     <div class="flex items-baseline gap-2">
-                                        <span id="pg-rent" class="text-3xl font-bold text-luxury-cognac">₹15,000</span>
+                                        <span id="pg-rent" class="text-3xl font-bold text-luxury-cognac mobile-text-2xl">₹15,000</span>
                                         <span class="text-gray-600">/month</span>
                                     </div>
                                     <p class="text-sm text-gray-600">+ ₹2,000 maintenance</p>
@@ -328,11 +358,11 @@
                                 </div>
 
                                 <div class="grid grid-cols-2 gap-3">
-                                    <button id="book-now-btn" class="btn-primary w-full">Book Now</button>
-                                    <button id="schedule-visit-btn" class="btn-outline w-full">Schedule Visit</button>
+                                    <button id="book-now-btn" class="btn-primary w-full mobile-button-text">Book Now</button>
+                                    <button id="schedule-visit-btn" class="btn-outline w-full mobile-button-text">Schedule Visit</button>
                                 </div>
 
-                                <a id="whatsapp-link" href="#" class="whatsapp-btn w-full justify-center">
+                                <a id="whatsapp-link" href="#" class="whatsapp-btn w-full justify-center mobile-button-text">
                                     <i class="fab fa-whatsapp"></i>
                                     WhatsApp
                                 </a>
