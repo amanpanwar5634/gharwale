@@ -202,13 +202,13 @@
                 </button>
 
                 <!-- Image Gallery -->
-                <div class="relative aspect-w-2 aspect-h-1 rounded-2xl overflow-hidden mb-8" style="height: 400px;">
+                <div class="relative aspect-w-2 aspect-h-1 rounded-2xl overflow-hidden mb-8" style="height: 80vh; width: 100%;">
                     <img id="main-image" src="" alt="" class="w-full h-full object-cover">
-                    <button id="view-photos-btn" class="absolute bottom-4 right-4 bg-white/90 hover:bg-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
+                    <button id="view-photos-btn" class="absolute bottom-4 right-4 bg-white/90 hover:bg-white text-luxury-cognac hover:text-luxury-amber px-6 py-3 rounded-lg flex items-center gap-2 transition-all font-semibold shadow-lg">
                         <i class="fas fa-images"></i>
                         View Photos
                     </button>
-                    <button id="wishlist-btn" class="absolute bottom-4 left-4 bg-white/90 hover:bg-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
+                    <button id="wishlist-btn" class="absolute bottom-4 left-4 bg-white/90 hover:bg-white text-luxury-cognac hover:text-luxury-amber px-6 py-3 rounded-lg flex items-center gap-2 transition-all font-semibold shadow-lg">
                         <i class="far fa-heart"></i>
                         Save
                     </button>
@@ -717,10 +717,21 @@
             document.getElementById('wishlist-btn').addEventListener('click', toggleWishlist);
 
             // Close modal buttons
-            document.getElementById('close-gallery').addEventListener('click', () => closeModal('gallery-modal'));
+            document.getElementById('close-gallery').addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeModal('gallery-modal');
+            });
             document.getElementById('close-booking').addEventListener('click', () => closeModal('booking-modal'));
             document.getElementById('close-visit').addEventListener('click', () => closeModal('visit-modal'));
             document.getElementById('close-review').addEventListener('click', () => closeModal('review-modal'));
+
+            // Close modal when clicking outside
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    const modalId = e.target.id;
+                    closeModal(modalId);
+                }
+            });
 
             // Form submissions
             document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
